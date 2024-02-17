@@ -1,5 +1,5 @@
 {
-  "name": "videolab",
+  "name": "clip-canvas",
   "private": true,
   "scripts": {
     "build": "turbo build",
