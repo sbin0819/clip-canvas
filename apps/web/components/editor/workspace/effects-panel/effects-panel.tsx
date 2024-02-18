@@ -1,5 +1,5 @@
 'use client';
 
 export default function EffectsPanel() {
-  return <div>Effects Panel</div>;
+  return <div className="flex-1">Effects Panel</div>;
 }

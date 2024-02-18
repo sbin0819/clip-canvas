@@ -8,9 +8,7 @@
     ],
     "baseUrl": ".",
     "paths": {
-      "@/*": [
-        "*"
-      ]
+      "@/*": ["*"]
     },
     "strictNullChecks": true
   },
@@ -20,9 +18,8 @@
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts",
-    "components/editor/side-data-panel"
+    "components/editor/side-data-panel",
+    "components/editor/workspace/workspacce-navigationtsx"
   ],
-  "exclude": [
-    "node_modules"
-  ]
+  "exclude": ["node_modules"]
 }

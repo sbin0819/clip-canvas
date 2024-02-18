@@ -1,15 +1,13 @@
 'use client';
 
-import EffectsPanel from './effects-panel/effects-panel';
-import PreviewArea from './preview-area/preview-area';
 import SideDataPanel from './side-data-panel';
+import Workspace from './workspace/workspace';
 
 export default function Editor() {
   return (
-    <div className="flex">
-      <EffectsPanel />
-      <PreviewArea />
+    <div className="flex w-full h-[calc(100vh_-_80px)] overflow-hidden">
       <SideDataPanel />
+      <Workspace />
     </div>
   );
 }
