@@ -14,6 +14,8 @@
 
   --header-height: 80px;
   --min-screen-height: calc(100vh - var(--header-height));
+
+  --border-primary: #00d084;
 }
 
 * {

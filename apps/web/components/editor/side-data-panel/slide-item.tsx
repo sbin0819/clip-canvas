@@ -1,10 +1,29 @@
 'use client';
 
-export default function SlideItem({ data }: { data: any }) {
-  return (
-    <div className="rounded-md border-[1px] border-border-primary">
-      <div className="h-[40px]"></div>
-      <div className="h-[40px]"></div>
-    </div>
-  );
+import { useCallback } from 'react';
+import type { FrameState } from '@/app/store/useSideOptions';
+import styles from './slide-item.module.css';
+import { cn } from '@cn';
+
+export default function SlideItem({
+  frame,
+  isActiveFrame,
+}: {
+  frame: FrameState;
+  isActiveFrame: boolean;
+}) {
+  const render = useCallback(() => {
+    const frameClasses = `${styles.frame} ${
+      isActiveFrame ? styles.active : styles.inactive
+    }`;
+
+    return (
+      <div className={cn(frameClasses, 'rounded-md')}>
+        <div className="h-[40px]"></div>
+        {isActiveFrame && <div className="h-[40px]"></div>}
+      </div>
+    );
+  }, [isActiveFrame]);
+
+  return <>{render()}</>;
 }

@@ -8,7 +8,8 @@
     ],
     "baseUrl": ".",
     "paths": {
-      "@/*": ["*"]
+      "@/*": ["*"],
+      "@cn": ["libs/cn.ts"]
     },
     "strictNullChecks": true
   },
