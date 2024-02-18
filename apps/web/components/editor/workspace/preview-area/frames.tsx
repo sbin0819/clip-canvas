@@ -1,9 +1,9 @@
 'use client';
 
-import useEditorHeader from '@/app/store/useEditorHeader';
+import useSideOptions from '@/app/store/useSideOptions';
 
 export default function Frames() {
-  const { display } = useEditorHeader();
+  const { display } = useSideOptions((state) => state.options.option);
 
   const aspectRatioClass = {
     '16:9': 'aspect-[16/9]',

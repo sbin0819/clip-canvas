@@ -19,13 +19,13 @@ export default function SlideItem({
       <div
         className={cn(
           'rounded-md',
-          'px-2',
+          'px-[4px]',
           'py-2',
           'border',
-          'transition-height duration-500 ease-in-out',
           isActiveFrame
             ? 'border-border-primary max-h-56'
             : 'border-slate-100 max-h-16',
+          'transition-height duration-500 ease-in-out',
         )}
       >
         <div
@@ -33,7 +33,7 @@ export default function SlideItem({
         >
           {isActiveFrame ? (
             <div className="flex flex-col justify-between">
-              <div className="flex items-center w-full">
+              <div className="flex items-center gap-[2px] w-full">
                 <DragIcon />
                 <div className="flex flex-items px-2 py-2 w-full bg-slate-100 rounded-md">
                   <div className="text-md">{frame.text}</div>

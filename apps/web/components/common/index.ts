@@ -1,1 +1,1 @@
-export { default as DragIcon } from './drag-icon';
+export { default as DragIcon } from './icons/drag-icon';

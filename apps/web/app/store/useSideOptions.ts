@@ -4,6 +4,8 @@
 import { create } from 'zustand';
 import { immer } from 'zustand/middleware/immer';
 
+export type Display = '16:9' | '4:3' | '1:1' | '4:5' | '9:16';
+
 export interface FrameState {
   text: string;
   duration: number;
@@ -19,6 +21,7 @@ export interface Option {
   currentFrame: number;
   currentDuration: number;
   duration?: number;
+  display: Display;
 }
 
 interface Slides {
@@ -28,6 +31,8 @@ interface Slides {
 
 interface SideOptionsState {
   options: Slides;
+
+  onSelectDisplayOption: (display: Display) => void;
 
   addData: (data: FrameState) => void;
   selectFrame: (frame: number) => void;
@@ -39,10 +44,17 @@ const useSideOptions = create<SideOptionsState>()(
     options: {
       frames: [],
       option: {
+        display: '16:9',
         currentFrame: 0,
         currentDuration: 0,
       },
     },
+
+    onSelectDisplayOption: (display: Display) =>
+      set((state) => {
+        state.options.option.display = display;
+      }),
+
     selectFrame: (frame: number) =>
       set((state) => {
         state.options.option.currentFrame = frame;
