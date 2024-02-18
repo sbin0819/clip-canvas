@@ -1,13 +1,3 @@
-.frame {
-  transition: all 0.3s ease;
-}
-
-.frame.active {
-  height: 80px;
-  border: 1px solid var(--border-primary);
-}
-
-.frame.inactive {
-  height: 40px;
-  border: 1px solid #eee;
+.transition-height {
+  transition: max-height 0.5s ease-out;
 }
