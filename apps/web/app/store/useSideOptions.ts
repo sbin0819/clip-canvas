@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 'use client';
 
 import { create } from 'zustand';
@@ -12,7 +11,7 @@ export interface SideOptionsState {
   onSelectDisplayOption: (display: Display) => void;
 
   addData: (data: FrameState) => void;
-  selectFrame: (frame: number) => void;
+  selectFrameItem: (frameIdx: number, frameId: string) => void;
   selectDuration: (duration: number) => void;
 
   moveDataOrder: (dragIndex: number, hoverIndex: number) => void;
@@ -26,6 +25,7 @@ const useSideOptions = create<SideOptionsState>()(
         display: '16:9',
         currentFrame: 0,
         currentDuration: 0,
+        currentFrameId: '',
       },
     },
 
@@ -33,9 +33,10 @@ const useSideOptions = create<SideOptionsState>()(
       set((state) => {
         state.options.option.display = display;
       }),
-    selectFrame: (frame: number) =>
+    selectFrameItem: (frameIdx: number, frameId: string) =>
       set((state) => {
-        state.options.option.currentFrame = frame;
+        state.options.option.currentFrame = frameIdx;
+        state.options.option.currentFrameId = frameId;
       }),
     selectDuration: (duration: number) => {
       set((state) => {

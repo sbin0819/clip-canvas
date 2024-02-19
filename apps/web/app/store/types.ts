@@ -28,6 +28,7 @@ export interface FrameState {
 export interface Option {
   currentFrame: number;
   currentDuration: number;
+  currentFrameId?: string;
   display: Display;
 }
 

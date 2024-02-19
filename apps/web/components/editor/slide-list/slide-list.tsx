@@ -1,6 +1,6 @@
 'use client';
 
-import { useCallback, useState } from 'react';
+import { useEffect, useState } from 'react';
 import useSideOptions from '@/app/store/useSideOptions';
 
 import { frames as initialFrames } from './mock';
@@ -11,16 +11,27 @@ import SlideItem from './slide-item';
 export default function SlideList() {
   const [frames, setFrames] = useState(initialFrames);
 
-  const { currentFrame } = useSideOptions((state) => state.options.option);
-  const { selectFrame } = useSideOptions();
+  const { currentFrame, currentFrameId } = useSideOptions(
+    (state) => state.options.option,
+  );
+  const { selectFrameItem } = useSideOptions();
 
-  const moveSlide = (dragIndex, hoverIndex) => {
+  const onDragItem = (dragIndex: number, hoverIndex: number) => {
     const dragItem = frames[dragIndex];
+
+    if (dragItem === undefined) return;
+
     const newFrames = [...frames];
     newFrames.splice(dragIndex, 1);
     newFrames.splice(hoverIndex, 0, dragItem);
     setFrames(newFrames);
   };
+
+  useEffect(() => {
+    if (currentFrameId === '' && frames.length > 0) {
+      selectFrameItem(currentFrame, frames[currentFrame]?.id ?? '');
+    }
+  }, []);
 
   return (
     <DndProvider backend={HTML5Backend}>
@@ -30,13 +41,17 @@ export default function SlideList() {
             <div
               className="cursor-pointer"
               key={frame.id}
-              // onClick={() => selectFrame(index)}
+              onClick={() => selectFrameItem(index, frame.id)}
             >
               <SlideItem
                 index={index}
                 frame={frame}
-                isActiveFrame={currentFrame === index}
-                moveSlide={moveSlide}
+                isActiveFrame={
+                  currentFrameId === ''
+                    ? currentFrame === index
+                    : currentFrameId === frame.id
+                }
+                onDragItem={onDragItem}
               />
             </div>
           ))}

@@ -14,15 +14,15 @@ export default function SlideItem({
   index,
   frame,
   isActiveFrame,
-  moveSlide,
+  onDragItem,
 }: {
   index: number;
   frame: FrameState;
   isActiveFrame: boolean;
-  moveSlide: (dragIndex: number, hoverIndex: number) => void;
+  onDragItem: (dragIndex: number, hoverIndex: number) => void;
 }) {
-  const ref = useRef(null);
-  const dragIconRef = useRef(null); // Reference for the DragIcon
+  const ref = useRef<HTMLDivElement>(null);
+  const dragIconRef = useRef<HTMLDivElement>(null);
 
   const [{ handlerId }, drop] = useDrop({
     accept: 'slide',
@@ -31,27 +31,40 @@ export default function SlideItem({
         handlerId: monitor.getHandlerId(),
       };
     },
-    hover(item, monitor) {
+    hover(item: any, monitor) {
       if (!ref.current) {
         return;
       }
+
+      if (!ref.current) {
+        return;
+      }
+
       const dragIndex = item.index;
       const hoverIndex = index;
+
       if (dragIndex === hoverIndex) {
         return;
       }
+
       const hoverBoundingRect = ref.current?.getBoundingClientRect();
       const hoverMiddleY =
         (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2;
       const clientOffset = monitor.getClientOffset();
+
+      if (!clientOffset) {
+        return;
+      }
       const hoverClientY = clientOffset.y - hoverBoundingRect.top;
+
       if (
         (dragIndex < hoverIndex && hoverClientY < hoverMiddleY) ||
         (dragIndex > hoverIndex && hoverClientY > hoverMiddleY)
       ) {
         return;
       }
-      moveSlide(dragIndex, hoverIndex);
+
+      onDragItem(dragIndex, hoverIndex);
       item.index = hoverIndex;
     },
   });
@@ -66,14 +79,14 @@ export default function SlideItem({
     }),
   });
 
-  drag(dragIconRef); // Apply the drag ref to the DragIcon only
-  drop(ref); // Apply the drop ref to the entire slide item
-  preview(ref); // This will use the entire SlideItem as the preview
+  drag(dragIconRef);
+  drop(ref);
+  preview(ref);
 
   return (
     <div
       ref={ref}
-      style={{ opacity: isDragging ? 0.5 : 1 }} // Make the item semi-transparent when dragging
+      style={{ opacity: isDragging ? 0 : 1 }}
       data-handler-id={handlerId}
       className={cn(
         'rounded-md',
@@ -84,15 +97,15 @@ export default function SlideItem({
           ? 'border-border-primary max-h-56'
           : 'border-slate-100 max-h-16',
         'transition-height duration-500 ease-in-out',
+        !isActiveFrame && 'hover:border-slate-300 max-h-16',
       )}
     >
       <div className={cn('overflow-hidden', isActiveFrame ? 'grow' : 'shrink')}>
         <div className="flex items-center justify-between text-sm">
           <div className="flex items-center w-full gap-2">
-            <div ref={dragIconRef}>
+            <div ref={dragIconRef} className="cursor-grab">
               <DragIcon />
-            </div>{' '}
-            {/* Apply the ref here for dragging */}
+            </div>
             <div>{frame?.texts[0]?.text}</div>
           </div>
           {!isActiveFrame && (
