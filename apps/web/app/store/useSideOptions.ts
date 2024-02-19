@@ -3,33 +3,10 @@
 
 import { create } from 'zustand';
 import { immer } from 'zustand/middleware/immer';
+import { Slides, Display, FrameState } from './types';
+export * from './types';
 
-export type Display = '16:9' | '4:3' | '1:1' | '4:5' | '9:16';
-
-export interface FrameState {
-  text: string;
-  duration: number;
-  fontSize: number;
-  color: string;
-  backgroundColor: string;
-  fontFamily: string;
-  fontWeight: string;
-  emoji: string[];
-}
-
-export interface Option {
-  currentFrame: number;
-  currentDuration: number;
-  duration?: number;
-  display: Display;
-}
-
-interface Slides {
-  option: Option;
-  frames: FrameState[];
-}
-
-interface SideOptionsState {
+export interface SideOptionsState {
   options: Slides;
 
   onSelectDisplayOption: (display: Display) => void;
@@ -37,6 +14,8 @@ interface SideOptionsState {
   addData: (data: FrameState) => void;
   selectFrame: (frame: number) => void;
   selectDuration: (duration: number) => void;
+
+  moveFrame: (dragIndex: number, hoverIndex: number) => void;
 }
 
 const useSideOptions = create<SideOptionsState>()(
@@ -54,7 +33,6 @@ const useSideOptions = create<SideOptionsState>()(
       set((state) => {
         state.options.option.display = display;
       }),
-
     selectFrame: (frame: number) =>
       set((state) => {
         state.options.option.currentFrame = frame;
@@ -67,6 +45,38 @@ const useSideOptions = create<SideOptionsState>()(
     addData: (data: FrameState) =>
       set((state) => {
         state.options.frames.push(data);
+      }),
+
+    moveFrame: (dragIndex: number, hoverIndex: number) =>
+      set((state) => {
+        // Check if dragIndex is within bounds
+        if (dragIndex >= 0 && dragIndex < state.options.frames.length) {
+          // Remove the frame being dragged from its original position
+          const removed = state.options.frames.splice(dragIndex, 1)[0]; // Directly access the first item
+
+          // Make sure 'removed' is not undefined before proceeding
+          if (removed !== undefined) {
+            // Insert the removed frame at the new position
+            state.options.frames.splice(hoverIndex, 0, removed);
+
+            // Update currentFrame index if necessary
+            if (state.options.option.currentFrame === dragIndex) {
+              state.options.option.currentFrame = hoverIndex;
+            } else if (
+              dragIndex < state.options.option.currentFrame &&
+              hoverIndex >= state.options.option.currentFrame
+            ) {
+              // Moved from before to after the currentFrame
+              state.options.option.currentFrame -= 1;
+            } else if (
+              dragIndex > state.options.option.currentFrame &&
+              hoverIndex <= state.options.option.currentFrame
+            ) {
+              // Moved from after to before the currentFrame
+              state.options.option.currentFrame += 1;
+            }
+          }
+        }
       }),
   })),
 );

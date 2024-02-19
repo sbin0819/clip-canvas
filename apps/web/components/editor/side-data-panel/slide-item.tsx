@@ -8,9 +8,11 @@ import { RxCopy } from 'react-icons/rx';
 import { DragIcon } from '@/components/common';
 
 export default function SlideItem({
+  index,
   frame,
   isActiveFrame,
 }: {
+  index: number;
   frame: FrameState;
   isActiveFrame: boolean;
 }) {
@@ -36,7 +38,7 @@ export default function SlideItem({
               <div className="flex items-center gap-[2px] w-full">
                 <DragIcon />
                 <div className="flex flex-items px-2 py-2 w-full bg-slate-100 rounded-md">
-                  <div className="text-md">{frame.text}</div>
+                  <div className="text-md">{frame?.texts[0]?.text}</div>
                 </div>
               </div>
               <div className="py-2"></div>
@@ -54,7 +56,7 @@ export default function SlideItem({
             <div className="flex items-center justify-between text-sm">
               <div className="flex items-center w-full gap-2">
                 <DragIcon />
-                <div>{frame.text}</div>
+                <div>{frame?.texts[0]?.text}</div>
               </div>
               <div className="flex items-center px-[10px] bg-slate-50 rounded-xl">
                 <span className="text-[10px]">{frame.duration}s</span>
