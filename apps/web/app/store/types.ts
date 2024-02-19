@@ -1,8 +1,12 @@
 export type Display = '16:9' | '4:3' | '1:1' | '4:5' | '9:16';
 
 export interface ItemsDefaultOption {
-  top?: number;
-  left?: number;
+  x?: number;
+  y?: number;
+  width?: number;
+  height?: number;
+  rotate?: number;
+  zIndex?: number;
 }
 
 export interface TextState extends ItemsDefaultOption {

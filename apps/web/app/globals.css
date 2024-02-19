@@ -39,3 +39,63 @@ a {
   color: inherit;
   text-decoration: none;
 }
+
+input,
+textarea {
+  background-color: transparent; /* Remove default background */
+  border: 1px solid transparent; /* Remove default border */
+  border-radius: var(
+    --border-radius
+  ); /* Set border-radius to match your design */
+  padding: 8px; /* Add some padding */
+  font-family: inherit; /* Use the same font as the rest of the site */
+  font-size: inherit; /* Use the same font size as the rest of the site */
+  color: inherit; /* Use the same font color as the rest of the site */
+  width: 100%; /* Full width */
+  box-sizing: border-box; /* Box-sizing to border-box */
+  transition:
+    border-color 0.2s,
+    box-shadow 0.2s; /* Smooth transition for focus effects */
+
+  /* Remove default focus outline and replace with box-shadow for accessibility */
+  outline: none;
+  box-shadow: none;
+}
+
+input:focus,
+textarea:focus {
+}
+
+/* Additional styles for disabled state */
+input:disabled,
+textarea:disabled {
+  background-color: #f5f5f5; /* Light gray background */
+  cursor: not-allowed; /* Show 'not allowed' cursor */
+}
+
+/* Additional styles for read-only state */
+input[readonly],
+textarea[readonly] {
+  background-color: #e9ecef; /* Light gray background, slightly darker than disabled */
+}
+
+/* Remove default styles for placeholder text */
+::placeholder {
+  color: #6c757d; /* Placeholder text color */
+  opacity: 1; /* Make sure it's fully opaque */
+}
+
+/* Fix for Firefox to remove extra padding for input of type "search" */
+input[type='search'] {
+  -webkit-appearance: none;
+  -moz-appearance: textfield;
+}
+
+/* Remove the clear button from search inputs */
+input[type='search']::-webkit-search-decoration,
+input[type='search']::-webkit-search-cancel-button,
+input[type='search']::-webkit-search-results-button,
+input[type='search']::-webkit-search-results-decoration {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+}

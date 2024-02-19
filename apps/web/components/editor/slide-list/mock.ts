@@ -14,7 +14,7 @@ export const frames = [
       },
     ],
     emojis: [],
-    duration: 2,
+    duration: 200,
   },
   {
     id: 'hello world 2',
@@ -29,7 +29,7 @@ export const frames = [
       },
     ],
     emojis: [],
-    duration: 3,
+    duration: 300,
   },
   {
     id: 'hello world3',
@@ -44,7 +44,7 @@ export const frames = [
       },
     ],
     emojis: [],
-    duration: 1,
+    duration: 500,
   },
   {
     id: 'hello world4',
@@ -60,7 +60,7 @@ export const frames = [
       },
     ],
     emojis: [],
-    duration: 1,
+    duration: 100,
   },
   {
     id: 'hello world5',
@@ -76,7 +76,7 @@ export const frames = [
       },
     ],
     emojis: [],
-    duration: 1,
+    duration: 1000,
   },
   {
     id: 'hello world7',
@@ -92,7 +92,7 @@ export const frames = [
       },
     ],
     emojis: [],
-    duration: 1,
+    duration: 1200,
   },
   {
     id: 'hello world8',
@@ -108,6 +108,6 @@ export const frames = [
       },
     ],
     emojis: [],
-    duration: 1,
+    duration: 500,
   },
 ] as FrameState[];

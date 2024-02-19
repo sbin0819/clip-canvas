@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import useSideOptions from '@/app/store/useSideOptions';
 
 import { frames as initialFrames } from './mock';
@@ -9,12 +9,11 @@ import { HTML5Backend } from 'react-dnd-html5-backend';
 import SlideItem from './slide-item';
 
 export default function SlideList() {
-  const [frames, setFrames] = useState(initialFrames);
-
+  const { frames } = useSideOptions((state) => state.options);
   const { currentFrame, currentFrameId } = useSideOptions(
     (state) => state.options.option,
   );
-  const { selectFrameItem } = useSideOptions();
+  const { selectFrame: selectFrameItem, setFrames } = useSideOptions();
 
   const onDragItem = (dragIndex: number, hoverIndex: number) => {
     const dragItem = frames[dragIndex];
@@ -28,8 +27,9 @@ export default function SlideList() {
   };
 
   useEffect(() => {
-    if (currentFrameId === '' && frames.length > 0) {
-      selectFrameItem(currentFrame, frames[currentFrame]?.id ?? '');
+    if (frames.length === 0) {
+      setFrames(initialFrames);
+      selectFrameItem(currentFrame, initialFrames[currentFrame]?.id ?? '');
     }
   }, []);
 

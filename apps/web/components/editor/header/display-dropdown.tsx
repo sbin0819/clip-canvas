@@ -15,11 +15,17 @@ export default function DisplayDropdown() {
 
   const { display } = useSideOptions((state) => state.options.option);
 
-  const { onSelectDisplayOption } = useSideOptions();
+  const { setOptions } = useSideOptions();
 
   const onToggle = () => setIsOpen(!isOpen);
   const onSelect = (option: Display) => {
-    onSelectDisplayOption(option);
+    setOptions((state) => ({
+      ...state,
+      option: {
+        ...state.option,
+        display: option,
+      },
+    }));
     setIsOpen(false);
   };
 

@@ -1,14 +1,15 @@
 'use client';
 
-import { useRef } from 'react';
-import { useDrag, useDrop } from 'react-dnd';
-
 import { cn } from '@/libs/cn';
 import { PiTrash } from 'react-icons/pi';
 import { RxCopy } from 'react-icons/rx';
 import { DragIcon } from '@/components/common';
-
-import type { FrameState } from '@/app/store/useSideOptions';
+import { useSlideItemDrag } from './use-slide-item-drag';
+import TextAarea from 'react-textarea-autosize';
+import { useState } from 'react';
+import { convertMillisecondsToSeconds } from '@/libs/format';
+import useSideOptions from '@/app/store/useSideOptions';
+import { produce } from 'immer';
 
 export default function SlideItem({
   index,
@@ -17,77 +18,44 @@ export default function SlideItem({
   onDragItem,
 }: {
   index: number;
-  frame: FrameState;
+  frame: any;
   isActiveFrame: boolean;
   onDragItem: (dragIndex: number, hoverIndex: number) => void;
 }) {
-  const ref = useRef<HTMLDivElement>(null);
-  const dragIconRef = useRef<HTMLDivElement>(null);
-
-  const [{ handlerId }, drop] = useDrop({
-    accept: 'slide',
-    collect(monitor) {
-      return {
-        handlerId: monitor.getHandlerId(),
-      };
-    },
-    hover(item: any, monitor) {
-      if (!ref.current) {
-        return;
-      }
-
-      if (!ref.current) {
-        return;
-      }
-
-      const dragIndex = item.index;
-      const hoverIndex = index;
-
-      if (dragIndex === hoverIndex) {
-        return;
-      }
-
-      const hoverBoundingRect = ref.current?.getBoundingClientRect();
-      const hoverMiddleY =
-        (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2;
-      const clientOffset = monitor.getClientOffset();
-
-      if (!clientOffset) {
-        return;
-      }
-      const hoverClientY = clientOffset.y - hoverBoundingRect.top;
-
-      if (
-        (dragIndex < hoverIndex && hoverClientY < hoverMiddleY) ||
-        (dragIndex > hoverIndex && hoverClientY > hoverMiddleY)
-      ) {
-        return;
-      }
-
-      onDragItem(dragIndex, hoverIndex);
-      item.index = hoverIndex;
-    },
+  const { ref, dragIconRef, isDragging } = useSlideItemDrag({
+    index,
+    frame,
+    onDragItem,
   });
 
-  const [{ isDragging }, drag, preview] = useDrag({
-    type: 'slide',
-    item: () => {
-      return { id: frame.id, index };
-    },
-    collect: (monitor) => ({
-      isDragging: monitor.isDragging(),
-    }),
-  });
+  const { setFrames } = useSideOptions();
 
-  drag(dragIconRef);
-  drop(ref);
-  preview(ref);
+  const [text, setText] = useState(frame?.texts[0]?.text ?? '');
+
+  const handleTextChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setText(e.target.value);
+
+    setFrames((oldFrames) =>
+      produce(oldFrames, (draftFrames) => {
+        const frame = draftFrames[index];
+        if (frame && Array.isArray(frame.texts) && frame.texts[0]) {
+          frame.texts[0].text = e.target.value;
+        }
+      }),
+    );
+  };
+
+  const onKeydown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault();
+      setText(text + '\n');
+    }
+  };
 
   return (
     <div
       ref={ref}
       style={{ opacity: isDragging ? 0 : 1 }}
-      data-handler-id={handlerId}
       className={cn(
         'rounded-md',
         'px-[4px]',
@@ -106,11 +74,23 @@ export default function SlideItem({
             <div ref={dragIconRef} className="cursor-grab">
               <DragIcon />
             </div>
-            <div>{frame?.texts[0]?.text}</div>
+            {isActiveFrame ? (
+              <TextAarea
+                className="w-full py-2 px-2 font-semibold bg-slate-100 border border-slate-100 resize-none"
+                value={text}
+                minRows={1}
+                onChange={handleTextChange}
+                onKeyDown={onKeydown}
+              />
+            ) : (
+              <div>{text}</div>
+            )}
           </div>
           {!isActiveFrame && (
             <div className="flex items-center px-[10px] bg-slate-50 rounded-xl">
-              <span className="text-[10px]">{frame.duration}s</span>
+              <span className="text-[10px]">
+                {convertMillisecondsToSeconds(frame.duration)}s
+              </span>
             </div>
           )}
         </div>
@@ -119,7 +99,9 @@ export default function SlideItem({
             <div className="py-2"></div>
             <div className="flex items-center justify-between">
               <div className="flex items-center px-[10px] bg-slate-50 rounded-xl">
-                <span className="text-sm">{frame.duration}s</span>
+                <span className="text-sm">
+                  {convertMillisecondsToSeconds(frame.duration)}s
+                </span>
               </div>
               <div className="flex items-center gap-[1px]">
                 <RxCopy />
