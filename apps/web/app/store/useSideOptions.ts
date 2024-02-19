@@ -15,7 +15,7 @@ export interface SideOptionsState {
   selectFrame: (frame: number) => void;
   selectDuration: (duration: number) => void;
 
-  moveFrame: (dragIndex: number, hoverIndex: number) => void;
+  moveDataOrder: (dragIndex: number, hoverIndex: number) => void;
 }
 
 const useSideOptions = create<SideOptionsState>()(
@@ -47,7 +47,7 @@ const useSideOptions = create<SideOptionsState>()(
         state.options.frames.push(data);
       }),
 
-    moveFrame: (dragIndex: number, hoverIndex: number) =>
+    moveDataOrder: (dragIndex: number, hoverIndex: number) =>
       set((state) => {
         // Check if dragIndex is within bounds
         if (dragIndex >= 0 && dragIndex < state.options.frames.length) {
