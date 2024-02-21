@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect } from 'react';
-import useSideOptions from '@/app/store/useSideOptions';
+import useSideOptions from '@/app/store/use-side-options';
 
 import { frames as initialFrames } from './mock';
 import { DndProvider } from 'react-dnd';

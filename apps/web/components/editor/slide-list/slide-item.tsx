@@ -8,7 +8,7 @@ import { useSlideItemDrag } from './use-slide-item-drag';
 import TextAarea from 'react-textarea-autosize';
 import { useState } from 'react';
 import { convertMillisecondsToSeconds } from '@/libs/format';
-import useSideOptions, { FrameState } from '@/app/store/useSideOptions';
+import useSideOptions, { FrameState } from '@/app/store/use-side-options';
 import { produce } from 'immer';
 import { showToast } from '@/libs/toast';
 
@@ -76,7 +76,7 @@ export default function SlideItem({
         'py-2',
         'border',
         isActiveFrame
-          ? 'border-border-primary max-h-56'
+          ? 'border-teal-400 max-h-56'
           : 'border-slate-100 max-h-16',
         'transition-height duration-500 ease-in-out',
         !isActiveFrame && 'hover:border-slate-300 max-h-16',

@@ -2,8 +2,8 @@
 
 import { create } from 'zustand';
 import { immer } from 'zustand/middleware/immer';
-import { Slides, Display, FrameState } from './types';
-export * from './types';
+import { Slides, Display, FrameState } from './use-side-options.types';
+export * from './use-side-options.types';
 
 export interface SideOptionsState {
   options: Slides;

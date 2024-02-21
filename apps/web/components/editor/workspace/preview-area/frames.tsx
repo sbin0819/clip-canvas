@@ -1,6 +1,6 @@
 'use client';
 
-import useSideOptions from '@/app/store/useSideOptions';
+import useSideOptions from '@/app/store/use-side-options';
 
 export default function Frames() {
   const { display } = useSideOptions((state) => state.options.option);
@@ -17,7 +17,7 @@ export default function Frames() {
     <div
       className={`mx-auto ${aspectRatioClass} max-w-full max-h-[calc(100vh-300px)]`}
     >
-      <div className="w-full h-full bg-white rounded-md border-2 border-border-primary"></div>
+      <div className="w-full h-full bg-white rounded-md border-2 border-teal-400"></div>
     </div>
   );
 }

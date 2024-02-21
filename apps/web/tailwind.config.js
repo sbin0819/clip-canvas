@@ -16,9 +16,7 @@ module.exports = {
         '4/5': '4/5',
         '9/16': '9/16',
       },
-      borderColor: {
-        'border-primary': '#00d084',
-      },
+      borderColor: {},
     },
   },
   plugins: [require('tailwindcss-animate')],

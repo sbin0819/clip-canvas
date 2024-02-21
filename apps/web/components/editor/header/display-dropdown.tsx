@@ -2,9 +2,9 @@
 
 import { useRef, useState } from 'react';
 import useOnClickOutside from '@/hooks/useOnClickOutside';
-import useSideOptions from '@/app/store/useSideOptions';
+import useSideOptions from '@/app/store/use-side-options';
 
-import type { Display } from '@/app/store/useSideOptions';
+import type { Display } from '@/app/store/use-side-options';
 
 const options: Display[] = ['16:9', '4:3', '1:1', '4:5', '9:16'];
 

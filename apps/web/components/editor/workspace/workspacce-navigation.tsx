@@ -1,4 +1,4 @@
-import useSideOptions from '@/app/store/useSideOptions';
+import useSideOptions from '@/app/store/use-side-options';
 
 export default function WorkspaceNavigation() {
   const { setFrames } = useSideOptions();
