@@ -8,8 +8,9 @@ import { useSlideItemDrag } from './use-slide-item-drag';
 import TextAarea from 'react-textarea-autosize';
 import { useState } from 'react';
 import { convertMillisecondsToSeconds } from '@/libs/format';
-import useSideOptions from '@/app/store/useSideOptions';
+import useSideOptions, { FrameState } from '@/app/store/useSideOptions';
 import { produce } from 'immer';
+import { showToast } from '@/libs/toast';
 
 export default function SlideItem({
   index,
@@ -18,7 +19,7 @@ export default function SlideItem({
   onDragItem,
 }: {
   index: number;
-  frame: any;
+  frame: FrameState;
   isActiveFrame: boolean;
   onDragItem: (dragIndex: number, hoverIndex: number) => void;
 }) {
@@ -28,6 +29,7 @@ export default function SlideItem({
     onDragItem,
   });
 
+  const { frames } = useSideOptions((state) => state.options);
   const { setFrames } = useSideOptions();
 
   const [text, setText] = useState(frame?.texts[0]?.text ?? '');
@@ -43,6 +45,18 @@ export default function SlideItem({
         }
       }),
     );
+  };
+
+  const removeFrame = () => {
+    if (frames.length > 1) {
+      setFrames((oldFrames) =>
+        produce(oldFrames, (draftFrames) => {
+          draftFrames.splice(index, 1);
+        }),
+      );
+    } else {
+    }
+    showToast('At least one frame is required', 'warning');
   };
 
   const onKeydown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
@@ -105,7 +119,7 @@ export default function SlideItem({
               </div>
               <div className="flex items-center gap-[1px]">
                 <RxCopy />
-                <PiTrash />
+                <PiTrash onClick={removeFrame} />
               </div>
             </div>
           </div>
