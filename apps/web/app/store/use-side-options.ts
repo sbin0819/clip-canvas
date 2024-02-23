@@ -14,7 +14,12 @@ export interface SideOptionsState {
   ) => void;
 
   selectFrame: (frameIdx: number, frameId: string) => void;
+
   selectDisplayOption: (display: Display) => void;
+
+  setCurrentFrame: (
+    update: ((options: FrameState) => FrameState) | FrameState,
+  ) => void;
 }
 
 const useSideOptions = create<SideOptionsState>()(
@@ -23,7 +28,7 @@ const useSideOptions = create<SideOptionsState>()(
       frames: [],
       option: {
         display: '16:9',
-        currentFrame: 0,
+        currentFrameIdx: 0,
         currentDuration: 0,
         currentFrameId: '',
       },
@@ -43,13 +48,28 @@ const useSideOptions = create<SideOptionsState>()(
 
     selectFrame: (frameIdx: number, frameId: string) =>
       set((state) => {
-        state.options.option.currentFrame = frameIdx;
+        state.options.option.currentFrameIdx = frameIdx;
         state.options.option.currentFrameId = frameId;
       }),
 
     selectDisplayOption: (display: Display) =>
       set((state) => {
         state.options.option.display = display;
+      }),
+
+    setCurrentFrame: (update) =>
+      set((state) => {
+        const currentFrameIndex = state.options.option.currentFrameIdx;
+
+        if (state.options.frames[currentFrameIndex]) {
+          if (typeof update === 'function') {
+            state.options.frames[currentFrameIndex] = update(
+              state.options.frames[currentFrameIndex] as FrameState,
+            );
+          } else {
+            state.options.frames[currentFrameIndex] = update;
+          }
+        }
       }),
   })),
 );

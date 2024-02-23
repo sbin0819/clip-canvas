@@ -10,7 +10,7 @@ import SlideItem from './slide-item';
 
 export default function SlideList() {
   const { frames } = useSideOptions((state) => state.options);
-  const { currentFrame, currentFrameId } = useSideOptions(
+  const { currentFrameIdx, currentFrameId } = useSideOptions(
     (state) => state.options.option,
   );
   const { selectFrame: selectFrameItem, setFrames } = useSideOptions();
@@ -29,7 +29,10 @@ export default function SlideList() {
   useEffect(() => {
     if (frames.length === 0) {
       setFrames(initialFrames);
-      selectFrameItem(currentFrame, initialFrames[currentFrame]?.id ?? '');
+      selectFrameItem(
+        currentFrameIdx,
+        initialFrames[currentFrameIdx]?.id ?? '',
+      );
     }
   }, []);
 
@@ -48,7 +51,7 @@ export default function SlideList() {
                 frame={frame}
                 isActiveFrame={
                   currentFrameId === ''
-                    ? currentFrame === index
+                    ? currentFrameIdx === index
                     : currentFrameId === frame.id
                 }
                 onDragItem={onDragItem}

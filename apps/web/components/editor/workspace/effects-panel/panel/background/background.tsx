@@ -1,6 +1,6 @@
 import { BackgroundType } from '@/app/store/use-side-options.types';
 import Dropdown from '../common/dropdown';
-import Palette from './palette';
+import Palette from './background.palette';
 
 const backgroundOptions = ['solid', 'gradient'] as BackgroundType[];
 

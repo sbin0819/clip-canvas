@@ -27,7 +27,7 @@ export default function Dropdown<T extends FrameKeys>({
   const onSelect = (option: FrameState[T]) => {
     setOptions((oldOptions: Slides) =>
       produce(oldOptions, (draftOptions) => {
-        const frame = draftOptions.frames[draftOptions.option.currentFrame];
+        const frame = draftOptions.frames[draftOptions.option.currentFrameIdx];
         if (frame && dropdownKey in frame) {
           frame[dropdownKey] = option;
         }
@@ -49,7 +49,7 @@ export default function Dropdown<T extends FrameKeys>({
           type="button"
           onClick={onToggle}
         >
-          {options.frames[options.option.currentFrame]?.[dropdownKey]}
+          {options.frames[options.option.currentFrameIdx]?.[dropdownKey]}
         </button>
       </div>
       <div

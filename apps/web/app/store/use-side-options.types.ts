@@ -29,10 +29,11 @@ export interface FrameState {
   emojis: EmojiState[];
   duration: number;
   backgroundType: BackgroundType;
+  backgroundColor: string;
 }
 
 export interface Option {
-  currentFrame: number;
+  currentFrameIdx: number;
   currentDuration: number;
   currentFrameId?: string;
   display: Display;
