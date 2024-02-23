@@ -55,8 +55,8 @@ export default function SlideItem({
         }),
       );
     } else {
+      showToast('At least one frame is required', 'warning');
     }
-    showToast('At least one frame is required', 'warning');
   };
 
   const onKeydown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {

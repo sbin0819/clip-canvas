@@ -1,6 +1,6 @@
 export { default } from './panel';
 
-export { default as PanelBackground } from './panel.background';
+export { default as PanelBackground } from './background';
 export { default as PanelText } from './panel.text';
 export { default as PanelMedia } from './panel.media';
 export { default as PanelAnimations } from './panel.animations';

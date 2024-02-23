@@ -15,6 +15,7 @@ export const frames = [
     ],
     emojis: [],
     duration: 200,
+    backgroundType: 'solid',
   },
   {
     id: 'hello world 2',
@@ -30,6 +31,7 @@ export const frames = [
     ],
     emojis: [],
     duration: 300,
+    backgroundType: 'solid',
   },
   {
     id: 'hello world3',
@@ -45,6 +47,7 @@ export const frames = [
     ],
     emojis: [],
     duration: 500,
+    backgroundType: 'solid',
   },
   {
     id: 'hello world4',
@@ -109,5 +112,6 @@ export const frames = [
     ],
     emojis: [],
     duration: 500,
+    backgroundType: 'solid',
   },
 ] as FrameState[];

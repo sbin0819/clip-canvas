@@ -1,4 +1,5 @@
 export type Display = '16:9' | '4:3' | '1:1' | '4:5' | '9:16';
+export type BackgroundType = 'solid' | 'gradient';
 
 export interface ItemsDefaultOption {
   x?: number;
@@ -25,8 +26,9 @@ export interface EmojiState extends ItemsDefaultOption {
 export interface FrameState {
   id: string;
   texts: TextState[];
-  emojis?: EmojiState[];
+  emojis: EmojiState[];
   duration: number;
+  backgroundType: BackgroundType;
 }
 
 export interface Option {
@@ -40,3 +42,5 @@ export interface Slides {
   option: Option;
   frames: FrameState[];
 }
+
+export type FrameKeys = keyof Omit<FrameState, 'id' | 'texts' | 'emojis'>;

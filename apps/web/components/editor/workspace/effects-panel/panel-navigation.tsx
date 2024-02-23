@@ -28,7 +28,6 @@ export default function PanelNavigation() {
                 panelType === key && 'bg-teal-100',
               )}
               key={key}
-              data-tooltip-id={key}
               onMouseEnter={() => setActiveTooltip(key)}
               onMouseLeave={() => setActiveTooltip('')}
               onClick={() => handlePanelChange(key as PanelType)}
