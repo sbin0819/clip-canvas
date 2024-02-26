@@ -1,5 +1,3 @@
-'use client';
-
 import PreviewArea from './preview-area/preview-area';
 import EffectsPanel from './effects-panel/effects-panel';
 import WorkspaceNavigation from './workspacce-navigation';

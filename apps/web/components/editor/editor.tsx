@@ -1,5 +1,3 @@
-'use client';
-
 import SlideList from './slide-list';
 import Workspace from './workspace/workspace';
 

@@ -1,14 +1,16 @@
 import dynamic from 'next/dynamic';
-// import Editor from '@/components/editor/editor';
+import Editor from '@/components/editor/editor';
 
-const Editor = dynamic(() => import('@/components/editor/editor'), {
+const ToastProvider = dynamic(() => import('app/toast-provider'), {
   ssr: false,
 });
 
 export default function Page(): JSX.Element {
   return (
     <main>
-      <Editor />
+      <ToastProvider>
+        <Editor />
+      </ToastProvider>
     </main>
   );
 }
