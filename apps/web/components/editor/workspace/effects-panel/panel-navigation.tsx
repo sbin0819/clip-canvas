@@ -20,7 +20,7 @@ export default function PanelNavigation() {
 
   return (
     <div>
-      <div className="flex flex-col gap-2 h-auto px-[6px] py-2 bg-white rounded-md position-relative">
+      <div className="w-[46px] flex flex-col gap-2 h-auto px-[6px] py-2 bg-white rounded-md position-relative">
         {Object.entries(panelValue).map(([key]) => {
           return (
             <div

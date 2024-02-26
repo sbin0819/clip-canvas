@@ -38,9 +38,6 @@ export default function Panel() {
 
   return (
     <div className="p-4 flex-1 bg-white rounded-md">
-      <div className="font-bold text-sm">
-        {panelType[0]?.toUpperCase() + panelType.slice(1)}
-      </div>
       {renderPanel(panelType)}
     </div>
   );

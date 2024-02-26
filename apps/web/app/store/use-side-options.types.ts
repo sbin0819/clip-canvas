@@ -1,5 +1,5 @@
 export type Display = '16:9' | '4:3' | '1:1' | '4:5' | '9:16';
-export type BackgroundType = 'solid' | 'gradient';
+export type ColorType = 'solid' | 'gradient';
 
 export interface ItemsDefaultOption {
   x?: number;
@@ -17,6 +17,7 @@ export interface TextState extends ItemsDefaultOption {
   backgroundColor?: string;
   fontFamily?: string;
   fontWeight?: string;
+  colorType: ColorType;
 }
 
 export interface EmojiState extends ItemsDefaultOption {
@@ -28,7 +29,7 @@ export interface FrameState {
   texts: TextState[];
   emojis: EmojiState[];
   duration: number;
-  backgroundType: BackgroundType;
+  backgroundType: ColorType;
   backgroundColor: string;
 }
 

@@ -1,3 +1,7 @@
 export default function MediaPanel() {
-  return <div></div>;
+  return (
+    <div>
+      <div className="font-bold text-sm">Media</div>
+    </div>
+  );
 }

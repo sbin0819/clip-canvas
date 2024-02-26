@@ -1,9 +1,12 @@
 'use cleint';
 
-import useSideOptions from '@/app/store/use-side-options';
+import useSideOptions, { ColorType } from '@/app/store/use-side-options';
 import useOnClickOutside from '@/hooks/use-on-click-outside';
 import { useEffect, useRef, useState } from 'react';
 import { ColorPicker, useColor, ColorService } from 'react-color-palette';
+import Dropdown from '../common/dropdown';
+
+const colorOptions = ['solid', 'gradient'] as ColorType[];
 import 'react-color-palette/css';
 
 const favoriteColors = [
@@ -23,7 +26,7 @@ const favoriteColors = [
   '#B7E5B4',
 ];
 
-export default function Palette() {
+export default function TextPalette() {
   const ref = useRef<HTMLDivElement>(null);
   const [isOpen, setIsOpen] = useState(false);
 
@@ -76,47 +79,51 @@ export default function Palette() {
   }, [options, options.option.currentFrameIdx]);
 
   return (
-    <div ref={ref}>
-      <div className="relative">
-        <div className="h-[38px] flex items-center rounded-md text-sm border border-slate-200">
-          <div
-            className="w-[42px] h-full rounded-s-md cursor-pointer border border-r border-slate-100"
-            style={{ backgroundColor: colorText }}
-            onClick={onTogglePalette}
-          />
-          <input
-            type="text"
-            className="tracking-wide"
-            value={colorText}
-            onChange={onChange}
-          />
-        </div>
-        {error && (
-          <div className="relative top-[2px] left-[5px] text-[12px] text-red-500">
-            {error}
-          </div>
-        )}
-        {isOpen && (
-          <div className="absolute w-full top-[45px]">
-            <ColorPicker
-              hideInput={['rgb', 'hsv', 'hex']}
-              color={color}
-              onChange={(newColor) => {
-                updateColor(newColor.hex);
-              }}
+    <div className="pt-4">
+      {/* text dropdown 으로 변경 */}
+      <Dropdown dropdownKey={'backgroundType'} selectOptions={colorOptions} />
+      <div className="pt-4" ref={ref}>
+        <div className="relative">
+          <div className="h-[38px] flex items-center rounded-md text-sm border border-slate-200">
+            <div
+              className="w-[42px] h-full rounded-s-md cursor-pointer border border-r border-slate-100"
+              style={{ backgroundColor: colorText }}
+              onClick={onTogglePalette}
+            />
+            <input
+              type="text"
+              className="tracking-wide"
+              value={colorText}
+              onChange={onChange}
             />
           </div>
-        )}
-      </div>
-      <div className="mt-4 px-[8px] py-[8px] w-full rounded-md text-sm border border-slate-200 grid grid-cols-4 gap-2">
-        {favoriteColors.map((color, index) => (
-          <div
-            key={index}
-            className="aspect-square rounded-md border border-slate-200 cursor-pointer shadow-md"
-            style={{ backgroundColor: color }}
-            onClick={() => onClickColor(color)}
-          />
-        ))}
+          {error && (
+            <div className="relative top-[2px] left-[5px] text-[12px] text-red-500">
+              {error}
+            </div>
+          )}
+          {isOpen && (
+            <div className="absolute w-full top-[45px]">
+              <ColorPicker
+                hideInput={['rgb', 'hsv', 'hex']}
+                color={color}
+                onChange={(newColor) => {
+                  updateColor(newColor.hex);
+                }}
+              />
+            </div>
+          )}
+        </div>
+        <div className="mt-4 px-[8px] py-[8px] w-full rounded-md text-sm border border-slate-200 grid grid-cols-4 gap-2">
+          {favoriteColors.map((color, index) => (
+            <div
+              key={index}
+              className="aspect-square rounded-md border border-slate-200 cursor-pointer shadow-md"
+              style={{ backgroundColor: color }}
+              onClick={() => onClickColor(color)}
+            />
+          ))}
+        </div>
       </div>
     </div>
   );
