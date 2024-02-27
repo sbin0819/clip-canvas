@@ -38,7 +38,7 @@ export interface Option {
   currentDuration: number;
   currentFrameId?: string;
   display: Display;
-  audio?: string;
+  audio: string;
   defaultAudio: { [key: string]: string };
 }
 
