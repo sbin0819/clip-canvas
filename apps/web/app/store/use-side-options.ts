@@ -31,6 +31,15 @@ const useSideOptions = create<SideOptionsState>()(
         currentFrameIdx: 0,
         currentDuration: 0,
         currentFrameId: '',
+        audio: 'sound1',
+        defaultAudio: {
+          sound1: 'audio/dont-blink.mp3',
+          sound2: 'audio/claps.mp3',
+          sound3: 'audio/gongs.mp3',
+          sound4: 'audio/motion.mp3',
+          sound5: 'audio/snpas.mp3',
+          sound6: 'audio/stomp.mp3',
+        },
       },
     },
 

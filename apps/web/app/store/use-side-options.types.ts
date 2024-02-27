@@ -38,6 +38,8 @@ export interface Option {
   currentDuration: number;
   currentFrameId?: string;
   display: Display;
+  audio?: string;
+  defaultAudio: { [key: string]: string };
 }
 
 export interface Slides {
