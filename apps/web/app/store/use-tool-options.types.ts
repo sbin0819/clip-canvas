@@ -2,11 +2,11 @@ export type Display = '16:9' | '4:3' | '1:1' | '4:5' | '9:16';
 export type ColorType = 'solid' | 'gradient';
 
 export interface ItemsDefaultOption {
-  x?: number;
-  y?: number;
-  width?: number;
-  height?: number;
-  rotate?: number;
+  x?: number | string;
+  y?: number | string;
+  width?: number | string;
+  height?: number | string;
+  rotate?: number | string;
   zIndex?: number;
 }
 
