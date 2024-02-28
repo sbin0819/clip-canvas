@@ -23,6 +23,8 @@ export const frames = [
         fontFamily: 'string',
         fontWeight: '400',
         colorType: 'solid',
+        x: '10%',
+        y: '10%',
       },
     ],
     emojis: [],
