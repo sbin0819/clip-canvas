@@ -90,16 +90,25 @@ export default function Frames() {
                 e.stopPropagation();
                 setActiveTextIndex(index);
               }}
-              className={cn('absolute', 'p-1 rounded-sm', {
-                'border-2 border-teal-500': activeTextIndex === index,
-              })}
+              className={cn(
+                'absolute',
+                'p-1 rounded-sm',
+                {
+                  'border-2 border-teal-500': activeTextIndex === index,
+                },
+                {
+                  'cursor-pointer': draggingTextIndex !== index,
+                },
+                {
+                  'cursor-move': activeTextIndex === index,
+                },
+              )}
               style={{
                 top: text.y,
                 left: text.x,
                 transform: `translate(-${text.x}, -${text.y})`,
                 fontSize: text.fontSize,
                 color: text.color,
-                backgroundColor: text.backgroundColor,
                 fontFamily: text.fontFamily,
                 fontWeight: text.fontWeight,
                 opacity: draggingTextIndex === index ? 0.01 : 1,

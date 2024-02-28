@@ -1,18 +1,26 @@
 'use client';
 
 import { useState, useEffect, useCallback, useRef } from 'react';
-import useToolOptions from '@/app/store/use-tool-options';
+import useToolOptions, {
+  FrameState,
+  Slides,
+} from '@/app/store/use-tool-options';
 import { FaPlay, FaPause } from 'react-icons/fa';
 import { formatTime, roundToNearestThousand } from './controls.helper';
 import WaveForm from './waveform';
+import { produce } from 'immer';
 
 export default function Controls() {
-  const { frames, audioPath } = useToolOptions((state) => ({
-    frames: state.options.frames,
-    audioPath: state.options.option.defaultAudio[
-      state.options.option.audio
-    ] as string,
-  }));
+  const { frames, currentFrame, audioPath, setOptions } = useToolOptions(
+    (state) => ({
+      frames: state.options.frames,
+      currentFrame: state.options.frames[state.options.option.currentFrameIdx],
+      audioPath: state.options.option.defaultAudio[
+        state.options.option.audio
+      ] as string,
+      setOptions: state.setOptions,
+    }),
+  );
 
   const totalDuration = roundToNearestThousand(
     frames.reduce((acc, curr) => acc + curr.duration, 0),
@@ -84,6 +92,56 @@ export default function Controls() {
     }
   }, []);
 
+  const getCurrentFrame = useCallback(
+    (elapsedTime: number): FrameState => {
+      let elapsed = elapsedTime * 1000;
+      let total = 0;
+      for (let i = 0; i < frames.length; i++) {
+        let frame = frames[i] as FrameState;
+        if (elapsed >= total && elapsed < total + frame.duration) {
+          return frame;
+        }
+        total += frame.duration;
+      }
+      return frames[frames.length - 1] as FrameState;
+    },
+    [frames],
+  );
+
+  const updateCurrentFrame = useCallback(() => {
+    const frame = getCurrentFrame(elapsedTime);
+
+    if (currentFrame) {
+      setOptions((oldOptions: Slides) =>
+        produce(oldOptions, (draftOptions) => {
+          const currentFrameIdx = frames.findIndex((f) => f === frame);
+          draftOptions.option.currentFrameIdx = currentFrameIdx;
+          draftOptions.option.currentFrameId = frame ? frame.id : '';
+        }),
+      );
+    }
+  }, [currentFrame, elapsedTime, frames, getCurrentFrame, setOptions]);
+
+  useEffect(() => {
+    updateCurrentFrame();
+  }, [updateCurrentFrame]);
+
+  const onSeekTo = (time: number) => {
+    const newTime = time / 1000;
+    setElapsedTime(newTime);
+
+    if (audioRef.current) {
+      audioRef.current.currentTime = newTime;
+      if (isPlaying) {
+        audioRef.current.play();
+      } else {
+        audioRef.current.pause();
+      }
+    }
+
+    updateCurrentFrame();
+  };
+
   return (
     <div className="mt-10">
       <audio ref={audioRef} src={audioPath} preload="auto" />
@@ -105,6 +163,7 @@ export default function Controls() {
           <WaveForm
             currentTime={Math.round(elapsedTime * 1000)}
             totalTime={totalDuration}
+            onSeekTo={onSeekTo}
           />
         </div>
       </div>
