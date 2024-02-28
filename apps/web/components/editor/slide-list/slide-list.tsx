@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect } from 'react';
-import useSideOptions from '@/app/store/use-side-options';
+import useToolOptions from '@/app/store/use-tool-options';
 
 import { frames as initialFrames } from './mock';
 import { DndProvider } from 'react-dnd';
@@ -9,11 +9,11 @@ import { HTML5Backend } from 'react-dnd-html5-backend';
 import SlideItem from './slide-item';
 
 export default function SlideList() {
-  const { frames } = useSideOptions((state) => state.options);
-  const { currentFrameIdx, currentFrameId } = useSideOptions(
+  const { frames } = useToolOptions((state) => state.options);
+  const { currentFrameIdx, currentFrameId } = useToolOptions(
     (state) => state.options.option,
   );
-  const { selectFrame: selectFrameItem, setFrames } = useSideOptions();
+  const { selectFrame: selectFrameItem, setFrames } = useToolOptions();
 
   const onDragItem = (dragIndex: number, hoverIndex: number) => {
     const dragItem = frames[dragIndex];

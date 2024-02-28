@@ -2,9 +2,9 @@
 
 import { useRef, useState } from 'react';
 import useOnClickOutside from '@/hooks/use-on-click-outside';
-import useSideOptions from '@/app/store/use-side-options';
+import useToolOptions from '@/app/store/use-tool-options';
 
-import type { Display } from '@/app/store/use-side-options';
+import type { Display } from '@/app/store/use-tool-options';
 
 const options: Display[] = ['16:9', '4:3', '1:1', '4:5', '9:16'];
 
@@ -13,9 +13,9 @@ export default function DisplayDropdown() {
 
   const [isOpen, setIsOpen] = useState(false);
 
-  const { display } = useSideOptions((state) => state.options.option);
+  const { display } = useToolOptions((state) => state.options.option);
 
-  const { setOptions } = useSideOptions();
+  const { setOptions } = useToolOptions();
 
   const onToggle = () => setIsOpen(!isOpen);
   const onSelect = (option: Display) => {

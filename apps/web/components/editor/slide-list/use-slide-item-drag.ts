@@ -2,7 +2,7 @@
 
 import { useRef } from 'react';
 import { useDrag, useDrop } from 'react-dnd';
-import type { FrameState } from '@/app/store/use-side-options.types';
+import type { FrameState } from '@/app/store/use-tool-options.types';
 
 export function useSlideItemDrag({
   index,

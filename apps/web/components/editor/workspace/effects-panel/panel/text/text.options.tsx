@@ -1,10 +1,10 @@
 'use client';
-import useSideOptions from '@/app/store/use-side-options';
+import useToolOptions from '@/app/store/use-tool-options';
 
 const DEFAULT_FONT_SIZE = 16;
 
 export default function TextOptions({ textIdx }: { textIdx: number }) {
-  const { currentText, setCurrentFrame } = useSideOptions((state) => ({
+  const { currentText, setCurrentFrame } = useToolOptions((state) => ({
     currentText:
       state.options.frames[state.options.option.currentFrameIdx]?.texts[
         textIdx

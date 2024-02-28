@@ -1,13 +1,13 @@
 'use client';
 
-import useSideOptions, { ColorType } from '@/app/store/use-side-options';
+import useToolOptions, { ColorType } from '@/app/store/use-tool-options';
 import { useState } from 'react';
 import TextPalette from './text.palate';
 import { IoIosArrowBack } from 'react-icons/io';
 import TextOptions from './text.options';
 
 export default function TextPanel() {
-  const { currentFrame } = useSideOptions((state) => ({
+  const { currentFrame } = useToolOptions((state) => ({
     currentFrame: state.options.frames[state.options.option.currentFrameIdx],
   }));
 

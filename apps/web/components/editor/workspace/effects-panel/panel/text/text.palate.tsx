@@ -1,6 +1,6 @@
 'use cleint';
 
-import useSideOptions, { ColorType } from '@/app/store/use-side-options';
+import useToolOptions, { ColorType } from '@/app/store/use-tool-options';
 import useOnClickOutside from '@/hooks/use-on-click-outside';
 import { useEffect, useRef, useState } from 'react';
 import { ColorPicker, useColor, ColorService } from 'react-color-palette';
@@ -30,8 +30,8 @@ export default function TextPalette() {
   const ref = useRef<HTMLDivElement>(null);
   const [isOpen, setIsOpen] = useState(false);
 
-  const { currentFrameIdx } = useSideOptions((state) => state.options.option);
-  const { options, setCurrentFrame } = useSideOptions();
+  const { currentFrameIdx } = useToolOptions((state) => state.options.option);
+  const { options, setCurrentFrame } = useToolOptions();
 
   const [colorText, setColorText] = useState(
     options?.frames[currentFrameIdx]?.backgroundColor || '#ffffff',

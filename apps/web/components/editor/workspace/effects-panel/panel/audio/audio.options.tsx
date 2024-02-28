@@ -2,13 +2,13 @@
 
 import { useRef, useState } from 'react';
 import useOnClickOutside from '@/hooks/use-on-click-outside';
-import useSideOptions, { Slides } from '@/app/store/use-side-options';
+import useToolOptions, { Slides } from '@/app/store/use-tool-options';
 import { produce } from 'immer';
 
 export default function AudioOptions() {
   const ref = useRef<HTMLDivElement>(null);
 
-  const { audio, defaultAudio, setOptions } = useSideOptions((state) => ({
+  const { audio, defaultAudio, setOptions } = useToolOptions((state) => ({
     audio: state.options.option.audio,
     defaultAudio: state.options.option.defaultAudio,
     setOptions: state.setOptions,

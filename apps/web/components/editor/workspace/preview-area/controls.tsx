@@ -1,14 +1,17 @@
 'use client';
+
 import { useState, useEffect, useCallback, useRef } from 'react';
-import useSideOptions from '@/app/store/use-side-options';
+import useToolOptions from '@/app/store/use-tool-options';
 import { FaPlay, FaPause } from 'react-icons/fa';
 import { formatTime, roundToNearestThousand } from './controls.helper';
-import WaveForm from './wave-form';
+import WaveForm from './waveform';
 
 export default function Controls() {
-  const { frames, audioPath } = useSideOptions((state) => ({
+  const { frames, audioPath } = useToolOptions((state) => ({
     frames: state.options.frames,
-    audioPath: state.options.option.defaultAudio[state.options.option.audio],
+    audioPath: state.options.option.defaultAudio[
+      state.options.option.audio
+    ] as string,
   }));
 
   const totalDuration = roundToNearestThousand(
@@ -17,63 +20,69 @@ export default function Controls() {
 
   const [elapsedTime, setElapsedTime] = useState<number>(0);
   const [isPlaying, setIsPlaying] = useState<boolean>(false);
-  const [animationStart, setAnimationStart] = useState<number | null>(null);
-  const audioRef = useRef<HTMLAudioElement>(null);
 
-  const updateTimer = useCallback(
-    (currentTime: number) => {
-      if (animationStart === null) {
-        setAnimationStart(currentTime);
-      } else {
-        const secondsElapsed = (currentTime - animationStart) / 1000;
-        const updatedElapsedTime = Math.min(
-          secondsElapsed,
-          totalDuration / 1000,
-        );
-        setElapsedTime(updatedElapsedTime);
-
-        if (updatedElapsedTime >= totalDuration / 1000) {
-          setIsPlaying(false);
-          return;
-        }
-
-        if (isPlaying) {
-          requestAnimationFrame(updateTimer);
-        }
-      }
-    },
-    [isPlaying, animationStart, totalDuration],
-  );
-
-  useEffect(() => {
-    setElapsedTime(0);
-    setAnimationStart(null);
-  }, [totalDuration, isPlaying]);
-
-  useEffect(() => {
-    if (isPlaying) {
-      requestAnimationFrame(updateTimer);
-      if (audioRef.current) {
-        audioRef.current.play();
-      }
-    } else {
-      if (audioRef.current) {
-        audioRef.current.pause();
-        audioRef.current.currentTime = 0;
-      }
-    }
-  }, [isPlaying, updateTimer]);
-
-  const togglePlayState = () => {
-    if (elapsedTime >= totalDuration / 1000 || !isPlaying) {
-      setElapsedTime(0);
-      setAnimationStart(null);
-    }
-    setIsPlaying(!isPlaying);
-  };
+  const audioRef = useRef<HTMLAudioElement | null>(null);
+  const animationRef = useRef<number | null>(null);
 
   const currentTimeDisplay = formatTime(elapsedTime);
   const totalTimeDisplay = formatTime(totalDuration / 1000);
+
+  const updateElapsedTime = useCallback(() => {
+    if (audioRef.current) {
+      const newTime = audioRef.current.currentTime;
+      if (newTime >= totalDuration / 1000) {
+        setElapsedTime(0);
+        audioRef.current.pause();
+        audioRef.current.currentTime = 0;
+        setIsPlaying(false);
+        if (animationRef.current) cancelAnimationFrame(animationRef.current);
+      } else {
+        setElapsedTime(newTime);
+        animationRef.current = requestAnimationFrame(updateElapsedTime);
+      }
+    }
+  }, [totalDuration]);
+
+  const togglePlayState = useCallback(() => {
+    if (audioRef.current) {
+      if (isPlaying) {
+        audioRef.current.pause();
+        if (animationRef.current) cancelAnimationFrame(animationRef.current);
+      } else {
+        audioRef.current.play();
+        animationRef.current = requestAnimationFrame(updateElapsedTime);
+      }
+    }
+  }, [isPlaying, updateElapsedTime]);
+
+  useEffect(() => {
+    const audio = audioRef.current;
+
+    if (audio) {
+      audio.addEventListener('play', () => setIsPlaying(true));
+      audio.addEventListener('pause', () => {
+        setIsPlaying(false);
+        if (animationRef.current) cancelAnimationFrame(animationRef.current);
+      });
+      audio.addEventListener('ended', () => {
+        setElapsedTime(0);
+        setIsPlaying(false);
+        if (animationRef.current) cancelAnimationFrame(animationRef.current);
+      });
+
+      return () => {
+        if (audio) {
+          audio.removeEventListener('play', () => setIsPlaying(true));
+          audio.removeEventListener('pause', () => setIsPlaying(false));
+          audio.removeEventListener('ended', () => {
+            setElapsedTime(0);
+            setIsPlaying(false);
+          });
+        }
+        if (animationRef.current) cancelAnimationFrame(animationRef.current);
+      };
+    }
+  }, []);
 
   return (
     <div className="mt-10">
@@ -93,7 +102,10 @@ export default function Controls() {
           </button>
         </div>
         <div className="w-full mt-4">
-          <WaveForm src={audioPath as string} currentTime={elapsedTime} />
+          <WaveForm
+            currentTime={Math.round(elapsedTime * 1000)}
+            totalTime={totalDuration}
+          />
         </div>
       </div>
     </div>

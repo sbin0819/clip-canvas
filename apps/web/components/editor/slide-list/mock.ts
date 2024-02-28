@@ -1,4 +1,4 @@
-import { FrameState } from '@/app/store/use-side-options';
+import { FrameState } from '@/app/store/use-tool-options';
 
 export const frames = [
   {

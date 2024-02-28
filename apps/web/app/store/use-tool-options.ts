@@ -2,8 +2,8 @@
 
 import { create } from 'zustand';
 import { immer } from 'zustand/middleware/immer';
-import { Slides, Display, FrameState } from './use-side-options.types';
-export * from './use-side-options.types';
+import { Slides, Display, FrameState } from './use-tool-options.types';
+export * from './use-tool-options.types';
 
 export interface SideOptionsState {
   options: Slides;
@@ -22,7 +22,7 @@ export interface SideOptionsState {
   ) => void;
 }
 
-const useSideOptions = create<SideOptionsState>()(
+const useToolOptions = create<SideOptionsState>()(
   immer((set) => ({
     options: {
       frames: [],
@@ -83,4 +83,4 @@ const useSideOptions = create<SideOptionsState>()(
   })),
 );
 
-export default useSideOptions;
+export default useToolOptions;

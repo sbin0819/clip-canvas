@@ -1,4 +1,4 @@
-import { ColorType } from '@/app/store/use-side-options.types';
+import { ColorType } from '@/app/store/use-tool-options.types';
 import Dropdown from '../common/dropdown';
 import Palette from './background.palette';
 

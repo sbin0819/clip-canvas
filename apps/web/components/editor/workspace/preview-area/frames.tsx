@@ -1,12 +1,12 @@
 'use client';
 
-import useSideOptions from '@/app/store/use-side-options';
+import useToolOptions from '@/app/store/use-tool-options';
 import { cn } from '@/libs/cn';
 
 export default function Frames() {
-  const { display } = useSideOptions((state) => state.options.option);
-  const { currentFrameIdx } = useSideOptions((state) => state.options.option);
-  const { frames } = useSideOptions((state) => state.options);
+  const { display } = useToolOptions((state) => state.options.option);
+  const { currentFrameIdx } = useToolOptions((state) => state.options.option);
+  const { frames } = useToolOptions((state) => state.options);
 
   const aspectRatioClass = {
     '16:9': 'aspect-[16/9]',

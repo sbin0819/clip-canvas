@@ -8,7 +8,7 @@ import { useSlideItemDrag } from './use-slide-item-drag';
 import TextAarea from 'react-textarea-autosize';
 import { useState } from 'react';
 import { convertMillisecondsToSeconds } from '@/libs/format';
-import useSideOptions, { FrameState } from '@/app/store/use-side-options';
+import useToolOptions, { FrameState } from '@/app/store/use-tool-options';
 import { produce } from 'immer';
 import { showToast } from '@/libs/toast';
 
@@ -29,8 +29,8 @@ export default function SlideItem({
     onDragItem,
   });
 
-  const { frames } = useSideOptions((state) => state.options);
-  const { setFrames } = useSideOptions();
+  const { frames } = useToolOptions((state) => state.options);
+  const { setFrames } = useToolOptions();
 
   const [text, setText] = useState(frame?.texts[0]?.text ?? '');
 
