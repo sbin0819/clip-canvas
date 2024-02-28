@@ -1,8 +1,8 @@
 'use client';
-
-import useToolOptions from '@/app/store/use-tool-options';
+import useToolOptions, { Slides } from '@/app/store/use-tool-options';
 import { cn } from '@/libs/cn';
 import { IoIosArrowRoundBack, IoIosArrowRoundForward } from 'react-icons/io';
+import { produce } from 'immer';
 
 export default function FramesNavigation() {
   const { frames, currentFrameIdx, setOptions } = useToolOptions((state) => ({
@@ -15,16 +15,21 @@ export default function FramesNavigation() {
     const newIndex =
       direction === 'prev' ? currentFrameIdx - 1 : currentFrameIdx + 1;
     const newFrame = frames[newIndex];
+    const newFrames = frames.slice(0, newIndex);
+
+    const totalElapsedTime =
+      newFrames.reduce((acc, curr) => {
+        return acc + curr.duration;
+      }, 0) / 1000;
 
     if (newFrame) {
-      setOptions((prev) => ({
-        ...prev,
-        option: {
-          ...prev.option,
-          currentFrameIdx: newIndex,
-          currentFrameId: newFrame.id,
-        },
-      }));
+      setOptions((oldOptions: Slides) =>
+        produce(oldOptions, (draftOptions) => {
+          draftOptions.option.currentFrameIdx = newIndex;
+          draftOptions.option.currentFrameId = newFrame.id;
+          draftOptions.option.elapsedTime = totalElapsedTime;
+        }),
+      );
     }
   };
 

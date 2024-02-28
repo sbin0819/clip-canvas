@@ -1,19 +1,23 @@
 'use client';
 
 import { useEffect } from 'react';
-import useToolOptions from '@/app/store/use-tool-options';
+import useToolOptions, { Slides } from '@/app/store/use-tool-options';
 
 import { frames as initialFrames } from './mock';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import SlideItem from './slide-item';
+import { produce } from 'immer';
 
 export default function SlideList() {
-  const { frames } = useToolOptions((state) => state.options);
+  const { frames, setFrames, setOptions } = useToolOptions((state) => ({
+    frames: state.options.frames,
+    setFrames: state.setFrames,
+    setOptions: state.setOptions,
+  }));
   const { currentFrameIdx, currentFrameId } = useToolOptions(
     (state) => state.options.option,
   );
-  const { selectFrame, setFrames } = useToolOptions();
 
   const onDragItem = (dragIndex: number, hoverIndex: number) => {
     const dragItem = frames[dragIndex];
@@ -26,10 +30,30 @@ export default function SlideList() {
     setFrames(newFrames);
   };
 
+  const onSelectItem = (idx: number) => {
+    const newFrame = frames[idx];
+    const newFrames = frames.slice(0, idx);
+
+    const totalElapsedTime =
+      newFrames.reduce((acc, curr) => {
+        return acc + curr.duration;
+      }, 0) / 1000;
+
+    if (newFrame) {
+      setOptions((oldOptions: Slides) =>
+        produce(oldOptions, (draftOptions) => {
+          draftOptions.option.currentFrameIdx = idx;
+          draftOptions.option.currentFrameId = newFrame.id;
+          draftOptions.option.elapsedTime = totalElapsedTime;
+        }),
+      );
+    }
+  };
+
   useEffect(() => {
     if (frames.length === 0) {
       setFrames(initialFrames);
-      selectFrame(currentFrameIdx, initialFrames[currentFrameIdx]?.id ?? '');
+      onSelectItem(0);
     }
   }, []);
 
@@ -41,7 +65,7 @@ export default function SlideList() {
             <div
               className="cursor-pointer"
               key={frame.id}
-              onClick={() => selectFrame(index, frame.id)}
+              onClick={() => onSelectItem(index)}
             >
               <SlideItem
                 index={index}

@@ -11,22 +11,22 @@ import WaveForm from './waveform';
 import { produce } from 'immer';
 
 export default function Controls() {
-  const { frames, currentFrame, audioPath, setOptions } = useToolOptions(
-    (state) => ({
+  const { elapsedTime, frames, currentFrame, audioPath, setOptions } =
+    useToolOptions((state) => ({
+      elapsedTime: state.options.option.elapsedTime,
       frames: state.options.frames,
+      currentFrameIdx: state.options.option.currentFrameIdx,
       currentFrame: state.options.frames[state.options.option.currentFrameIdx],
       audioPath: state.options.option.defaultAudio[
         state.options.option.audio
       ] as string,
       setOptions: state.setOptions,
-    }),
-  );
+    }));
 
   const totalDuration = roundToNearestThousand(
     frames.reduce((acc, curr) => acc + curr.duration, 0),
   );
 
-  const [elapsedTime, setElapsedTime] = useState<number>(0);
   const [isPlaying, setIsPlaying] = useState<boolean>(false);
 
   const audioRef = useRef<HTMLAudioElement | null>(null);
@@ -39,13 +39,23 @@ export default function Controls() {
     if (audioRef.current) {
       const newTime = audioRef.current.currentTime;
       if (newTime >= totalDuration / 1000) {
-        setElapsedTime(0);
+        setOptions((oldOptions: Slides) =>
+          produce(oldOptions, (draftOptions) => {
+            draftOptions.option.elapsedTime = 0;
+          }),
+        );
+
         audioRef.current.pause();
         audioRef.current.currentTime = 0;
         setIsPlaying(false);
         if (animationRef.current) cancelAnimationFrame(animationRef.current);
       } else {
-        setElapsedTime(newTime);
+        setOptions((oldOptions: Slides) =>
+          produce(oldOptions, (draftOptions) => {
+            draftOptions.option.elapsedTime = newTime;
+          }),
+        );
+
         animationRef.current = requestAnimationFrame(updateElapsedTime);
       }
     }
@@ -73,7 +83,12 @@ export default function Controls() {
         if (animationRef.current) cancelAnimationFrame(animationRef.current);
       });
       audio.addEventListener('ended', () => {
-        setElapsedTime(0);
+        setOptions((oldOptions: Slides) =>
+          produce(oldOptions, (draftOptions) => {
+            draftOptions.option.elapsedTime = 0;
+          }),
+        );
+
         setIsPlaying(false);
         if (animationRef.current) cancelAnimationFrame(animationRef.current);
       });
@@ -83,7 +98,11 @@ export default function Controls() {
           audio.removeEventListener('play', () => setIsPlaying(true));
           audio.removeEventListener('pause', () => setIsPlaying(false));
           audio.removeEventListener('ended', () => {
-            setElapsedTime(0);
+            setOptions((oldOptions: Slides) =>
+              produce(oldOptions, (draftOptions) => {
+                draftOptions.option.elapsedTime = 0;
+              }),
+            );
             setIsPlaying(false);
           });
         }
@@ -128,7 +147,12 @@ export default function Controls() {
 
   const onSeekTo = (time: number) => {
     const newTime = time / 1000;
-    setElapsedTime(newTime);
+
+    setOptions((oldOptions: Slides) =>
+      produce(oldOptions, (draftOptions) => {
+        draftOptions.option.elapsedTime = newTime;
+      }),
+    );
 
     if (audioRef.current) {
       audioRef.current.currentTime = newTime;

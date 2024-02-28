@@ -29,7 +29,7 @@ const useToolOptions = create<SideOptionsState>()(
       option: {
         display: '16:9',
         currentFrameIdx: 0,
-        currentDuration: 0,
+        elapsedTime: 0,
         currentFrameId: '',
         audio: 'sound1',
         defaultAudio: {

@@ -35,7 +35,7 @@ export interface FrameState {
 
 export interface Option {
   currentFrameIdx: number;
-  currentDuration: number;
+  elapsedTime: number;
   currentFrameId?: string;
   display: Display;
   audio: string;
