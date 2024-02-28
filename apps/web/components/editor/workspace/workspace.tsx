@@ -1,6 +1,6 @@
 import PreviewArea from './preview-area/preview-area';
 import EffectsPanel from './effects-panel/effects-panel';
-import WorkspaceNavigation from './workspacce-navigation';
+import WorkspaceNavigation from './workspacce.navigation';
 
 export default function Workspace() {
   return (

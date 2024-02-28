@@ -29,24 +29,24 @@ export default function Frames() {
     '9:16': 'aspect-[9/16]',
   }[display];
 
-  const onDragStart = (
-    event: React.DragEvent<HTMLDivElement>,
-    index: number,
-  ) => {
-    event.dataTransfer.setData('text/plain', index.toString());
-    setActiveTextIndex(index);
-    setDraggingTextIndex(index);
-  };
+  const onDragStart = useCallback(
+    (e: React.DragEvent<HTMLDivElement>, index: number) => {
+      e.dataTransfer.setData('text/plain', index.toString());
+      setActiveTextIndex(index);
+      setDraggingTextIndex(index);
+    },
+    [setActiveTextIndex, setDraggingTextIndex],
+  );
 
   const onDrop = useCallback(
-    (event: React.DragEvent<HTMLDivElement>) => {
-      event.preventDefault();
-      const textIdx = parseInt(event.dataTransfer.getData('text/plain'), 10);
-      const boundingRect = event.currentTarget.getBoundingClientRect();
+    (e: React.DragEvent<HTMLDivElement>) => {
+      e.preventDefault();
+      const textIdx = parseInt(e.dataTransfer.getData('text/plain'), 10);
+      const boundingRect = e.currentTarget.getBoundingClientRect();
       const xPercent =
-        ((event.clientX - boundingRect.left) / boundingRect.width) * 100;
+        ((e.clientX - boundingRect.left) / boundingRect.width) * 100;
       const yPercent =
-        ((event.clientY - boundingRect.top) / boundingRect.height) * 100;
+        ((e.clientY - boundingRect.top) / boundingRect.height) * 100;
 
       setCurrentFrame(
         produce((draft) => {
@@ -62,8 +62,8 @@ export default function Frames() {
     [setCurrentFrame],
   );
 
-  const onDragOver = (event: React.DragEvent<HTMLDivElement>) => {
-    event.preventDefault();
+  const onDragOver = (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
   };
 
   return (
@@ -85,7 +85,7 @@ export default function Frames() {
             <div
               key={index}
               draggable="true"
-              onDragStart={(event) => onDragStart(event, index)}
+              onDragStart={(e) => onDragStart(e, index)}
               onClick={(e) => {
                 e.stopPropagation();
                 setActiveTextIndex(index);
