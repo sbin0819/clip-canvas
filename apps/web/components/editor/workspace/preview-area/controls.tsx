@@ -89,17 +89,17 @@ export default function Controls() {
       <audio ref={audioRef} src={audioPath} preload="auto" />
       <div className="w-full h-full bg-gray-50 rounded-md border border-gray-300 px-2 py-4">
         <div className="flex items-center gap-2">
+          <button
+            onClick={togglePlayState}
+            className="px-2 py-2 bg-blue-500 text-white rounded hover:bg-blue-700 transition-colors"
+          >
+            {isPlaying ? <FaPause size={14} /> : <FaPlay size={14} />}
+          </button>
           <div className="flex items-center gap-1">
             <div className="text-md">{currentTimeDisplay}</div>
             <div>/</div>
             <div className="text-md">{totalTimeDisplay}</div>
           </div>
-          <button
-            onClick={togglePlayState}
-            className="px-2 py-2 bg-blue-500 text-white rounded hover:bg-blue-700 transition-colors"
-          >
-            {isPlaying ? <FaPause /> : <FaPlay />}
-          </button>
         </div>
         <div className="w-full mt-4">
           <WaveForm

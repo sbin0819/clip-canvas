@@ -13,7 +13,7 @@ export default function SlideList() {
   const { currentFrameIdx, currentFrameId } = useToolOptions(
     (state) => state.options.option,
   );
-  const { selectFrame: selectFrameItem, setFrames } = useToolOptions();
+  const { selectFrame, setFrames } = useToolOptions();
 
   const onDragItem = (dragIndex: number, hoverIndex: number) => {
     const dragItem = frames[dragIndex];
@@ -29,10 +29,7 @@ export default function SlideList() {
   useEffect(() => {
     if (frames.length === 0) {
       setFrames(initialFrames);
-      selectFrameItem(
-        currentFrameIdx,
-        initialFrames[currentFrameIdx]?.id ?? '',
-      );
+      selectFrame(currentFrameIdx, initialFrames[currentFrameIdx]?.id ?? '');
     }
   }, []);
 
@@ -44,7 +41,7 @@ export default function SlideList() {
             <div
               className="cursor-pointer"
               key={frame.id}
-              onClick={() => selectFrameItem(index, frame.id)}
+              onClick={() => selectFrame(index, frame.id)}
             >
               <SlideItem
                 index={index}
