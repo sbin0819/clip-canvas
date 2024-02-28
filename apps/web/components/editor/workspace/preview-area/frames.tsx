@@ -5,6 +5,7 @@ import useToolOptions from '@/app/store/use-tool-options';
 import { cn } from '@/libs/cn';
 import FramesNavigation from './frames.navigation';
 import { produce } from 'immer';
+// import styles from './frames.module.css';
 
 export default function Frames() {
   const { display, currentFrame, setCurrentFrame } = useToolOptions(
