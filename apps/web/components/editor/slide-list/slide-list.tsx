@@ -1,13 +1,13 @@
 'use client';
-
 import { useEffect } from 'react';
-import useToolOptions, { Slides } from '@/app/store/use-tool-options';
+import useToolOptions from '@/app/store/use-tool-options';
+import type { FrameState, Slides } from '@/app/store/use-tool-options.types';
 
 import { frames as initialFrames } from './mock';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
-import SlideItem from './slide-item';
 import { produce } from 'immer';
+import SlideItem from './slide-item';
 
 export default function SlideList() {
   const { frames, setFrames, setOptions } = useToolOptions((state) => ({
@@ -19,35 +19,46 @@ export default function SlideList() {
     (state) => state.options.option,
   );
 
-  const onDragItem = (dragIndex: number, hoverIndex: number) => {
-    const dragItem = frames[dragIndex];
+  const updateFramesAndSelection = (
+    newFrames: FrameState[],
+    newIndex: number,
+  ) => {
+    let totalElapsedTime = 0;
+    if (newIndex > 0) {
+      totalElapsedTime =
+        newFrames
+          .slice(0, newIndex)
+          .reduce((acc, curr) => acc + curr.duration, 0) / 1000;
+    }
 
-    if (dragItem === undefined) return;
-
-    const newFrames = [...frames];
-    newFrames.splice(dragIndex, 1);
-    newFrames.splice(hoverIndex, 0, dragItem);
-    setFrames(newFrames);
-  };
-
-  const onSelectItem = (idx: number) => {
-    const newFrame = frames[idx];
-    const newFrames = frames.slice(0, idx);
-
-    const totalElapsedTime =
-      newFrames.reduce((acc, curr) => {
-        return acc + curr.duration;
-      }, 0) / 1000;
+    const newFrame = newFrames[newIndex];
 
     if (newFrame) {
+      setFrames(newFrames);
       setOptions((oldOptions: Slides) =>
         produce(oldOptions, (draftOptions) => {
-          draftOptions.option.currentFrameIdx = idx;
+          draftOptions.option.currentFrameIdx = newIndex;
           draftOptions.option.currentFrameId = newFrame.id;
           draftOptions.option.elapsedTime = totalElapsedTime;
         }),
       );
     }
+  };
+
+  const onDragItem = (dragIndex: number, hoverIndex: number) => {
+    const dragItem = frames[dragIndex];
+    if (dragItem === undefined) return;
+
+    const newFrames = produce(frames, (draft) => {
+      draft.splice(dragIndex, 1);
+      draft.splice(hoverIndex, 0, dragItem);
+    });
+
+    updateFramesAndSelection(newFrames, hoverIndex);
+  };
+
+  const onSelectItem = (idx: number) => {
+    updateFramesAndSelection(frames, idx);
   };
 
   useEffect(() => {
