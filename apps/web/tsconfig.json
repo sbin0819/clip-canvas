@@ -19,7 +19,7 @@
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts",
-    "components/editor/slide-list",
+    "components/editor/sidebar",
     "components/editor/workspace/workspacce-navigationtsx"
   ],
   "exclude": ["node_modules"]

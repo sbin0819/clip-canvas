@@ -1,10 +1,10 @@
-import SlideList from './slide-list';
+import Sidebar from './sidebar';
 import Workspace from './workspace/workspace';
 
 export default function Editor() {
   return (
     <div className="flex w-full h-[calc(100vh_-_80px)] overflow-hidden">
-      <SlideList />
+      <Sidebar />
       <Workspace />
     </div>
   );

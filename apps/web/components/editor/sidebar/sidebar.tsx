@@ -7,9 +7,9 @@ import { frames as initialFrames } from './mock';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import { produce } from 'immer';
-import SlideItem from './slide-item';
+import Item from './item';
 
-export default function SlideList() {
+export default function Sidebar() {
   const { frames, setFrames, setOptions } = useToolOptions((state) => ({
     frames: state.options.frames,
     setFrames: state.setFrames,
@@ -78,7 +78,7 @@ export default function SlideList() {
               key={frame.id}
               onClick={() => onSelectItem(index)}
             >
-              <SlideItem
+              <Item
                 index={index}
                 frame={frame}
                 isActiveFrame={

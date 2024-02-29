@@ -4,7 +4,7 @@ import { useRef } from 'react';
 import { useDrag, useDrop } from 'react-dnd';
 import type { FrameState } from '@/app/store/use-tool-options.types';
 
-export function useSlideItemDrag({
+export default function useDragItem({
   index,
   frame,
   onDragItem,
