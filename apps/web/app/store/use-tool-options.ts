@@ -2,7 +2,7 @@
 
 import { create } from 'zustand';
 import { immer } from 'zustand/middleware/immer';
-import { Slides, Display, FrameState } from './use-tool-options.types';
+import { Slides, FrameState } from './use-tool-options.types';
 export * from './use-tool-options.types';
 
 export interface SideOptionsState {
@@ -12,11 +12,6 @@ export interface SideOptionsState {
   setFrames: (
     update: ((frames: FrameState[]) => FrameState[]) | FrameState[],
   ) => void;
-
-  selectFrame: (frameIdx: number, frameId: string) => void;
-
-  selectDisplayOption: (display: Display) => void;
-
   setCurrentFrame: (
     update: ((options: FrameState) => FrameState) | FrameState,
   ) => void;
@@ -48,24 +43,11 @@ const useToolOptions = create<SideOptionsState>()(
         state.options =
           typeof update === 'function' ? update(state.options) : update;
       }),
-
     setFrames: (update) =>
       set((state) => {
         state.options.frames =
           typeof update === 'function' ? update(state.options.frames) : update;
       }),
-
-    selectFrame: (frameIdx: number, frameId: string) =>
-      set((state) => {
-        state.options.option.currentFrameIdx = frameIdx;
-        state.options.option.currentFrameId = frameId;
-      }),
-
-    selectDisplayOption: (display: Display) =>
-      set((state) => {
-        state.options.option.display = display;
-      }),
-
     setCurrentFrame: (update) =>
       set((state) => {
         const currentFrameIndex = state.options.option.currentFrameIdx;
