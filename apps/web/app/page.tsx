@@ -7,7 +7,12 @@ export default function Page(): JSX.Element {
       <div className="max-w-[1200px] mx-auto pt-6 px-4">
         <nav className="w-full flex items-center justify-between">
           <Link href="/">
-            <span className="text-2xl cursor-pointer">Clipcanvas</span>
+            <span
+              data-testid="nav__data-logo"
+              className="text-2xl cursor-pointer"
+            >
+              Clipcanvas
+            </span>
           </Link>
           <Link href="/dashboard">
             <span className="px-4 py-2 text-sm bg-gray-700 rounded-2xl cursor-pointer">

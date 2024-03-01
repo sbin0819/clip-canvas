@@ -1,3 +1,7 @@
+## 타이머 수정
+
+- Date 객체와 타임스탬프 비교
+
 ## 텍스트 애니메이션 구현 계획
 
 - \*.module.css 활용 or styled-components 활용
