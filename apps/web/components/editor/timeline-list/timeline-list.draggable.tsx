@@ -8,14 +8,15 @@ import { produce } from 'immer';
 import TimelineItem from './timeline-item';
 
 export default function TimelineListDraggable() {
-  const { currentFrameIdx, currentFrameId, frames, setFrames, setOptions } =
-    useEditorStore((state) => ({
+  const { currentFrameId, frames, setFrames, setOptions } = useEditorStore(
+    (state) => ({
       currentFrameIdx: state.options.option.currentFrameIdx,
       currentFrameId: state.options.option.currentFrameId,
       frames: state.options.frames,
       setFrames: state.setFrames,
       setOptions: state.setOptions,
-    }));
+    }),
+  );
 
   const updateFramesAndSelection = (
     newFrames: FrameState[],
@@ -67,7 +68,10 @@ export default function TimelineListDraggable() {
   }, []);
 
   return (
-    <section className="flex-[2] min-w-[340px] px-4 py-4 border-r border overflow-auto">
+    <section
+      data-testid="timeline-list-section"
+      className="flex-[2] min-w-[340px] px-4 py-4 border-r border overflow-auto"
+    >
       <div className="flex flex-col gap-2">
         {frames.map((frame, index) => (
           <div
