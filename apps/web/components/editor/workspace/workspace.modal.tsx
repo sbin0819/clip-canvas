@@ -1,4 +1,4 @@
-import { Modal } from '@/components/common';
+import { Modal } from '@/components/shared';
 
 export type WorkspaceModalTabType = 'text' | 'video' | 'sticker' | 'animation';
 

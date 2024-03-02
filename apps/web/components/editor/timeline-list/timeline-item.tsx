@@ -3,7 +3,7 @@
 import { cn } from '@/libs/cn';
 import { PiTrash } from 'react-icons/pi';
 import { RxCopy } from 'react-icons/rx';
-import { DragIcon } from '@/components/common';
+import { DragIcon } from '@/components/shared';
 import useTimelineItem from './use-timeline-item';
 import TextAarea from 'react-textarea-autosize';
 import { useState } from 'react';

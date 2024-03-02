@@ -1,5 +1,5 @@
-import Studio from './studio/studio';
-import EffectsPanel from './toolbar/toolbar';
+import Studio from './studio';
+import EffectsPanel from './toolbar';
 import WorkspaceHeaderToolbar from './workspacce.header-toolbar';
 
 export default function Workspace() {
