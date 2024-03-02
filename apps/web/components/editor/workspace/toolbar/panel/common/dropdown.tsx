@@ -2,11 +2,11 @@
 
 import { useRef, useState } from 'react';
 import useOnClickOutside from '@/hooks/use-on-click-outside';
-import useToolOptions, {
+import useEditorStore, {
   FrameKeys,
   FrameState,
   Slides,
-} from '@/app/store/use-tool-options';
+} from '@/app/store/use-editor-store';
 import { produce } from 'immer';
 
 export default function Dropdown<T extends FrameKeys>({
@@ -18,7 +18,7 @@ export default function Dropdown<T extends FrameKeys>({
 }) {
   const ref = useRef<HTMLDivElement>(null);
 
-  const { options, setOptions } = useToolOptions((state) => state);
+  const { options, setOptions } = useEditorStore((state) => state);
 
   const [isOpen, setIsOpen] = useState(false);
 

@@ -1,12 +1,12 @@
 'use client';
-import useToolOptions, { Slides } from '@/app/store/use-tool-options';
+import useEditorStore, { Slides } from '@/app/store/use-editor-store';
 import { cn } from '@/libs/cn';
 import { IoIosArrowRoundBack, IoIosArrowRoundForward } from 'react-icons/io';
 import { produce } from 'immer';
 import { memo } from 'react';
 
 const CanvasNavigation = ({ children }: { children: React.ReactNode }) => {
-  const { frames, currentFrameIdx, setOptions } = useToolOptions((state) => ({
+  const { frames, currentFrameIdx, setOptions } = useEditorStore((state) => ({
     frames: state.options.frames,
     currentFrameIdx: state.options.option.currentFrameIdx,
     setOptions: state.setOptions,

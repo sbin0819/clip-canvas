@@ -1,17 +1,14 @@
 'use client';
 import { useState } from 'react';
-import {
-  useEffectsNavigation,
-  panelValue,
-} from '@/app/store/use-effects-navigation';
-import type { PanelType } from '@/app/store/use-effects-navigation';
+import { useToolbarStore, panelValue } from '@/app/store/use-toolbar-store';
+import type { PanelType } from '@/app/store/use-toolbar-store';
 import { cn } from '@/libs/cn';
 import Image from 'next/image';
 
 const iconPathPrefix = './icons/effects-';
 
 export default function ToolbarNavigation() {
-  const { panelType, setPanelType } = useEffectsNavigation();
+  const { panelType, setPanelType } = useToolbarStore();
   const [activeTooltip, setActiveTooltip] = useState('');
 
   const handlePanelChange = (panel: PanelType) => {

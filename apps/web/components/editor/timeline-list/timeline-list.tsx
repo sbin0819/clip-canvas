@@ -1,7 +1,7 @@
 'use client';
 import { useEffect } from 'react';
-import useToolOptions from '@/app/store/use-tool-options';
-import type { FrameState, Slides } from '@/app/store/use-tool-options.types';
+import useEditorStore from '@/app/store/use-editor-store';
+import type { FrameState, Slides } from '@/app/store/use-editor-store.types';
 
 import { frames as initialFrames } from './mock';
 import { DndProvider } from 'react-dnd';
@@ -10,12 +10,12 @@ import { produce } from 'immer';
 import TimelineItem from './timeline-item';
 
 export default function Sidebar() {
-  const { frames, setFrames, setOptions } = useToolOptions((state) => ({
+  const { frames, setFrames, setOptions } = useEditorStore((state) => ({
     frames: state.options.frames,
     setFrames: state.setFrames,
     setOptions: state.setOptions,
   }));
-  const { currentFrameIdx, currentFrameId } = useToolOptions(
+  const { currentFrameIdx, currentFrameId } = useEditorStore(
     (state) => state.options.option,
   );
 

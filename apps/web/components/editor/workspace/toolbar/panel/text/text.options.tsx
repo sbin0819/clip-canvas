@@ -1,10 +1,10 @@
 'use client';
-import useToolOptions from '@/app/store/use-tool-options';
+import useEditorStore from '@/app/store/use-editor-store';
 
 const DEFAULT_FONT_SIZE = 16;
 
 export default function TextOptions({ textIdx }: { textIdx: number }) {
-  const { currentText, setCurrentFrame } = useToolOptions((state) => ({
+  const { currentText, setCurrentFrame } = useEditorStore((state) => ({
     currentText:
       state.options.frames[state.options.option.currentFrameIdx]?.texts[
         textIdx

@@ -1,10 +1,10 @@
 'use client';
 
 import { useState, useEffect, useCallback, useRef, memo } from 'react';
-import useToolOptions, {
+import useEditorStore, {
   FrameState,
   Slides,
-} from '@/app/store/use-tool-options';
+} from '@/app/store/use-editor-store';
 import { FaPlay, FaPause } from 'react-icons/fa';
 import { formatTime, roundToNearestThousand } from './track.helper';
 import TimeTrackWaveForm from './track.waveform';
@@ -12,7 +12,7 @@ import { produce } from 'immer';
 
 const Track = () => {
   const { elapsedTime, frames, currentFrame, audioPath, setOptions } =
-    useToolOptions((state) => ({
+    useEditorStore((state) => ({
       elapsedTime: state.options.option.elapsedTime,
       frames: state.options.frames,
       currentFrameIdx: state.options.option.currentFrameIdx,

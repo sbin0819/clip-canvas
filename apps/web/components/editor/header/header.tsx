@@ -7,7 +7,10 @@ import Link from 'next/link';
 export default function Header() {
   return (
     <>
-      <header className="fixed top-0 left-0 w-full bg-white z-50">
+      <header
+        data-testid="editor__header"
+        className="fixed top-0 left-0 w-full bg-white z-50"
+      >
         <div className="flex justify-between items-center px-8 h-[80px] border-b-[1px]">
           <div>
             <Link href="/">home</Link>

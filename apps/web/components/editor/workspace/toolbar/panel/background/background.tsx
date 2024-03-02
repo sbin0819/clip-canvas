@@ -1,4 +1,4 @@
-import { ColorType } from '@/app/store/use-tool-options.types';
+import { ColorType } from '@/app/store/use-editor-store.types';
 import Dropdown from '../common/dropdown';
 import Palette from './background.palette';
 

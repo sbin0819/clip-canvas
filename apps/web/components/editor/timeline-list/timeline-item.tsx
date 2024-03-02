@@ -8,7 +8,7 @@ import useTimelineItem from './use-timeline-item';
 import TextAarea from 'react-textarea-autosize';
 import { useState } from 'react';
 import { convertMillisecondsToSeconds } from '@/libs/format';
-import useToolOptions, { FrameState } from '@/app/store/use-tool-options';
+import useEditorStore, { FrameState } from '@/app/store/use-editor-store';
 import { produce } from 'immer';
 import { showToast } from '@/libs/toast';
 
@@ -29,8 +29,8 @@ export default function TimeLineItem({
     onDragItem,
   });
 
-  const { frames } = useToolOptions((state) => state.options);
-  const { setFrames } = useToolOptions();
+  const { frames } = useEditorStore((state) => state.options);
+  const { setFrames } = useEditorStore();
 
   const [text, setText] = useState(frame?.texts[0]?.text ?? '');
 

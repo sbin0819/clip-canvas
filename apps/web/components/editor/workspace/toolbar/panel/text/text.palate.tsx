@@ -1,6 +1,6 @@
 'use cleint';
 
-import useToolOptions, { ColorType } from '@/app/store/use-tool-options';
+import useEditorStore, { ColorType } from '@/app/store/use-editor-store';
 import useOnClickOutside from '@/hooks/use-on-click-outside';
 import { useEffect, useRef, useState } from 'react';
 import { ColorPicker, useColor, ColorService } from 'react-color-palette';
@@ -30,8 +30,8 @@ export default function TextPalette() {
   const ref = useRef<HTMLDivElement>(null);
   const [isOpen, setIsOpen] = useState(false);
 
-  const { currentFrameIdx } = useToolOptions((state) => state.options.option);
-  const { options, setCurrentFrame } = useToolOptions();
+  const { currentFrameIdx } = useEditorStore((state) => state.options.option);
+  const { options, setCurrentFrame } = useEditorStore();
 
   const [colorText, setColorText] = useState(
     options?.frames[currentFrameIdx]?.backgroundColor || '#ffffff',

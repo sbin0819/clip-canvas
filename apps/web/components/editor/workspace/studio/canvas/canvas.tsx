@@ -1,14 +1,14 @@
 'use client';
 
 import { memo, useCallback, useState } from 'react';
-import useToolOptions from '@/app/store/use-tool-options';
+import useEditorStore from '@/app/store/use-editor-store';
 import { cn } from '@/libs/cn';
 import CanvasNavigation from './canvas.navigation';
 import { produce } from 'immer';
 // import styles from './frames.module.css';
 
 const Canvas = () => {
-  const { display, currentFrame, setCurrentFrame } = useToolOptions(
+  const { display, currentFrame, setCurrentFrame } = useEditorStore(
     (state) => ({
       display: state.options.option.display,
       currentFrame: state.options.frames[state.options.option.currentFrameIdx],

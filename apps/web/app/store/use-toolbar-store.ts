@@ -16,7 +16,7 @@ interface PanelState {
   setPanelType: (newType: PanelType) => void;
 }
 
-export const useEffectsNavigation = create<PanelState>((set) => ({
+export const useToolbarStore = create<PanelState>((set) => ({
   panelType: panelValue.background,
   setPanelType: (newType: PanelType) => set({ panelType: newType }),
 }));

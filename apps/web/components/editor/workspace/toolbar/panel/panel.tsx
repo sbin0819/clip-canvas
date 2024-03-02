@@ -8,14 +8,11 @@ import {
   PanelAudio,
 } from '.';
 
-import {
-  useEffectsNavigation,
-  panelValue,
-} from '@/app/store/use-effects-navigation';
-import type { PanelType } from '@/app/store/use-effects-navigation';
+import { useToolbarStore, panelValue } from '@/app/store/use-toolbar-store';
+import type { PanelType } from '@/app/store/use-toolbar-store';
 
 export default function Panel() {
-  const { panelType } = useEffectsNavigation();
+  const { panelType } = useToolbarStore();
 
   const renderPanel = useCallback((panel: PanelType) => {
     switch (panel) {

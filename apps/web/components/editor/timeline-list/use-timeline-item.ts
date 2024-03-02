@@ -2,7 +2,7 @@
 
 import { useRef } from 'react';
 import { useDrag, useDrop } from 'react-dnd';
-import type { FrameState } from '@/app/store/use-tool-options.types';
+import type { FrameState } from '@/app/store/use-editor-store.types';
 
 export default function useTimelineItem({
   index,
