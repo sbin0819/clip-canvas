@@ -1,13 +1,13 @@
 'use client';
 
-import { useCallback, useState } from 'react';
+import { memo, useCallback, useState } from 'react';
 import useToolOptions from '@/app/store/use-tool-options';
 import { cn } from '@/libs/cn';
-import FramesNavigation from './frames.navigation';
+import CanvasNavigation from './canvas.navigation';
 import { produce } from 'immer';
 // import styles from './frames.module.css';
 
-export default function Frames() {
+const Canvas = () => {
   const { display, currentFrame, setCurrentFrame } = useToolOptions(
     (state) => ({
       display: state.options.option.display,
@@ -67,59 +67,62 @@ export default function Frames() {
   };
 
   return (
-    <div>
-      <div
-        className={`mx-auto ${aspectRatioClass} max-w-full max-h-[calc(100vh-300px)]`}
-        onDrop={onDrop}
-        onDragOver={onDragOver}
-      >
+    <CanvasNavigation>
+      <div>
         <div
-          className={cn(
-            'relative',
-            'w-full h-full rounded-md border-2 border-teal-400',
-          )}
-          style={{ backgroundColor: currentFrame?.backgroundColor }}
-          onClick={() => setActiveTextIndex(null)}
+          className={`mx-auto ${aspectRatioClass} max-w-full max-h-[calc(100vh-300px)]`}
+          onDrop={onDrop}
+          onDragOver={onDragOver}
         >
-          {currentFrame?.texts.map((text, index) => (
-            <div
-              key={index}
-              draggable="true"
-              onDragStart={(e) => onDragStart(e, index)}
-              onClick={(e) => {
-                e.stopPropagation();
-                setActiveTextIndex(index);
-              }}
-              className={cn(
-                'absolute',
-                'p-1 rounded-sm',
-                {
-                  'border-2 border-teal-500': activeTextIndex === index,
-                },
-                {
-                  'cursor-pointer': draggingTextIndex !== index,
-                },
-                {
-                  'cursor-move': activeTextIndex === index,
-                },
-              )}
-              style={{
-                top: text.y,
-                left: text.x,
-                transform: `translate(-${text.x}, -${text.y})`,
-                fontSize: text.fontSize,
-                color: text.color,
-                fontFamily: text.fontFamily,
-                fontWeight: text.fontWeight,
-                opacity: draggingTextIndex === index ? 0.01 : 1,
-              }}
-            >
-              {text.text}
-            </div>
-          ))}
+          <div
+            className={cn(
+              'relative',
+              'w-full h-full rounded-md border-2 border-teal-400',
+            )}
+            style={{ backgroundColor: currentFrame?.backgroundColor }}
+            onClick={() => setActiveTextIndex(null)}
+          >
+            {currentFrame?.texts.map((text, index) => (
+              <div
+                key={index}
+                draggable="true"
+                onDragStart={(e) => onDragStart(e, index)}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setActiveTextIndex(index);
+                }}
+                className={cn(
+                  'absolute',
+                  'p-1 rounded-sm',
+                  {
+                    'border-2 border-teal-500': activeTextIndex === index,
+                  },
+                  {
+                    'cursor-pointer': draggingTextIndex !== index,
+                  },
+                  {
+                    'cursor-move': activeTextIndex === index,
+                  },
+                )}
+                style={{
+                  top: text.y,
+                  left: text.x,
+                  transform: `translate(-${text.x}, -${text.y})`,
+                  fontSize: text.fontSize,
+                  color: text.color,
+                  fontFamily: text.fontFamily,
+                  fontWeight: text.fontWeight,
+                  opacity: draggingTextIndex === index ? 0.01 : 1,
+                }}
+              >
+                {text.text}
+              </div>
+            ))}
+          </div>
         </div>
       </div>
-      <FramesNavigation />
-    </div>
+    </CanvasNavigation>
   );
-}
+};
+
+export default Canvas;

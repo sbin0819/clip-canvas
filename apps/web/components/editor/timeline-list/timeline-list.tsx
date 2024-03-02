@@ -7,7 +7,7 @@ import { frames as initialFrames } from './mock';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import { produce } from 'immer';
-import Item from './item';
+import TimelineItem from './timeline-item';
 
 export default function Sidebar() {
   const { frames, setFrames, setOptions } = useToolOptions((state) => ({
@@ -78,7 +78,7 @@ export default function Sidebar() {
               key={frame.id}
               onClick={() => onSelectItem(index)}
             >
-              <Item
+              <TimelineItem
                 index={index}
                 frame={frame}
                 isActiveFrame={

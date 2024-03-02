@@ -4,7 +4,7 @@ import { cn } from '@/libs/cn';
 import { PiTrash } from 'react-icons/pi';
 import { RxCopy } from 'react-icons/rx';
 import { DragIcon } from '@/components/common';
-import useDragItem from './use-drag-item';
+import useTimelineItem from './use-timeline-item';
 import TextAarea from 'react-textarea-autosize';
 import { useState } from 'react';
 import { convertMillisecondsToSeconds } from '@/libs/format';
@@ -12,7 +12,7 @@ import useToolOptions, { FrameState } from '@/app/store/use-tool-options';
 import { produce } from 'immer';
 import { showToast } from '@/libs/toast';
 
-export default function Item({
+export default function TimeLineItem({
   index,
   frame,
   isActiveFrame,
@@ -23,7 +23,7 @@ export default function Item({
   isActiveFrame: boolean;
   onDragItem: (dragIndex: number, hoverIndex: number) => void;
 }) {
-  const { ref, dragIconRef, isDragging } = useDragItem({
+  const { ref, dragIconRef, isDragging } = useTimelineItem({
     index,
     frame,
     onDragItem,

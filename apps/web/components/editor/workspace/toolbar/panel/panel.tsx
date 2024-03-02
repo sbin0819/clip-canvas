@@ -6,7 +6,7 @@ import {
   PanelAnimations,
   PanelTransitions,
   PanelAudio,
-} from './';
+} from '.';
 
 import {
   useEffectsNavigation,

@@ -10,7 +10,7 @@ import Image from 'next/image';
 
 const iconPathPrefix = './icons/effects-';
 
-export default function PanelNavigation() {
+export default function ToolbarNavigation() {
   const { panelType, setPanelType } = useEffectsNavigation();
   const [activeTooltip, setActiveTooltip] = useState('');
 

@@ -1,16 +1,16 @@
 'use client';
 
-import { useState, useEffect, useCallback, useRef } from 'react';
+import { useState, useEffect, useCallback, useRef, memo } from 'react';
 import useToolOptions, {
   FrameState,
   Slides,
 } from '@/app/store/use-tool-options';
 import { FaPlay, FaPause } from 'react-icons/fa';
-import { formatTime, roundToNearestThousand } from './controls.helper';
-import WaveForm from './waveform';
+import { formatTime, roundToNearestThousand } from './track.helper';
+import TimeTrackWaveForm from './track.waveform';
 import { produce } from 'immer';
 
-export default function Controls() {
+const Track = () => {
   const { elapsedTime, frames, currentFrame, audioPath, setOptions } =
     useToolOptions((state) => ({
       elapsedTime: state.options.option.elapsedTime,
@@ -184,7 +184,7 @@ export default function Controls() {
           </div>
         </div>
         <div className="w-full mt-4">
-          <WaveForm
+          <TimeTrackWaveForm
             currentTime={Math.round(elapsedTime * 1000)}
             totalTime={totalDuration}
             onSeekTo={onSeekTo}
@@ -193,4 +193,6 @@ export default function Controls() {
       </div>
     </div>
   );
-}
+};
+
+export default memo(Track);

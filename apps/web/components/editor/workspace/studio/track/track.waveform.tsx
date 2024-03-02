@@ -7,7 +7,7 @@ interface WaveformProps {
   onSeekTo: (time: number) => void;
 }
 
-const Waveform = ({ totalTime, currentTime, onSeekTo }: WaveformProps) => {
+const TrackWaveForm = ({ totalTime, currentTime, onSeekTo }: WaveformProps) => {
   const [isDragging, setIsDragging] = useState(false);
   const [barHeights, setBarHeights] = useState<number[]>([]);
   const barCount = 100;
@@ -75,4 +75,4 @@ const Waveform = ({ totalTime, currentTime, onSeekTo }: WaveformProps) => {
   );
 };
 
-export default Waveform;
+export default TrackWaveForm;

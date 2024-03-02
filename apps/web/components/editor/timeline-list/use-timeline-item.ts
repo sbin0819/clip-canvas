@@ -4,7 +4,7 @@ import { useRef } from 'react';
 import { useDrag, useDrop } from 'react-dnd';
 import type { FrameState } from '@/app/store/use-tool-options.types';
 
-export default function useDragItem({
+export default function useTimelineItem({
   index,
   frame,
   onDragItem,

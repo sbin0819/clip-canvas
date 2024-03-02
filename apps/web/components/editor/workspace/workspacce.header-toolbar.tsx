@@ -2,7 +2,7 @@
 import { useState } from 'react';
 import EditorModal, { WorkspaceModalTabType } from './workspace.modal';
 
-export default function WorkspaceNavigation() {
+export default function WorkspaceHeaderToolbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [activeTab, setActiveTab] = useState<WorkspaceModalTabType | null>(
     null,

@@ -1,7 +1,7 @@
 'use client';
 
 import { BiUndo, BiRedo } from 'react-icons/bi';
-import DisplayDropdown from './display-dropdown';
+import DisplayDropdown from './header.display-dropdown';
 import Link from 'next/link';
 
 export default function Header() {

@@ -1,13 +1,13 @@
 'use client';
 
-import PanelNavigation from './panel-navigation';
+import ToolbarNavigation from './toolbar.navigation';
 import Panel from './panel/panel';
 
-export default function EffectsPanel() {
+export default function Toolbar() {
   return (
     <div className="flex-1 flex justify-end gap-2">
       <Panel />
-      <PanelNavigation />
+      <ToolbarNavigation />
     </div>
   );
 }
