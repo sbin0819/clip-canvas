@@ -16,7 +16,7 @@ export default function useTimelineItem({
   const ref = useRef<HTMLDivElement>(null);
   const dragIconRef = useRef<HTMLDivElement>(null);
 
-  const [{ handlerId }, drop] = useDrop({
+  const [_, drop] = useDrop({
     accept: 'slide',
     collect(monitor) {
       return {
