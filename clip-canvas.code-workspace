@@ -1,0 +1,12 @@
+{
+  "folders": [
+    {
+      "name": "all",
+      "path": "."
+    },
+    {
+      "name": "web",
+      "path": "apps/web"
+    }
+  ]
+}
