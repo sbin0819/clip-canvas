@@ -1,3 +1,6 @@
+'use client';
+
+import { useState } from 'react';
 import { PiTrash } from 'react-icons/pi';
 import { RxCopy } from 'react-icons/rx';
 import { convertMillisecondsToSeconds } from '@/libs/format';
@@ -7,8 +10,7 @@ import useEditorStore from '@/app/store/use-editor-store';
 import { showToast } from '@/libs/toast';
 
 import { FaSortDown, FaSortUp } from 'react-icons/fa';
-// import { useState } from 'react';
-// import ItemDuration from './timeline-item.editor.duration';
+import ItemDuration from './timeline-item.editor.duration';
 
 export default function ItemEditor({
   index,
@@ -22,7 +24,7 @@ export default function ItemEditor({
     setFrames: state.setFrames,
   }));
 
-  //   const [isOpen, setIsOpen] = useState(true);
+  const [isOpen, setIsOpen] = useState(false);
 
   const removeFrame = () => {
     if (frames.length > 1) {
@@ -36,27 +38,32 @@ export default function ItemEditor({
     }
   };
 
+  const onOpenDuration = () => setIsOpen(true);
+  const onCloseDuration = () => setIsOpen(false);
+
   return (
-    <div className="flex flex-col justify-between px-4">
-      <div className="py-2"></div>
-      <div className="flex items-center justify-between">
-        <div className="flex items-center">
-          <div className="relative mr-1 cursor-pointer">
-            {/* {isOpen && <ItemDuration />} */}
-            <FaSortUp size={12} className="absolute" />
-            <FaSortDown size={12} />
+    <>
+      <div className="flex flex-col justify-between px-4">
+        <div className="py-2"></div>
+        <div className="flex items-center justify-between">
+          <div className="flex items-center" onClick={onOpenDuration}>
+            <div className="mr-1 cursor-pointer">
+              <FaSortUp size={12} className="relative top-[4px]" />
+              <FaSortDown size={12} className="relative top-[-4px]" />
+            </div>
+            <div className="flex items-center py-[2px] px-2 bg-slate-100 rounded-xl">
+              <span className="text-[10px]">
+                {convertMillisecondsToSeconds(frame.duration)}s
+              </span>
+            </div>
           </div>
-          <div className="flex items-center py-[2px] px-2 bg-slate-100 rounded-xl">
-            <span className="text-[10px]">
-              {convertMillisecondsToSeconds(frame.duration)}s
-            </span>
+          <div className="flex items-center gap-[1px]">
+            <RxCopy />
+            <PiTrash onClick={removeFrame} />
           </div>
-        </div>
-        <div className="flex items-center gap-[1px]">
-          <RxCopy />
-          <PiTrash onClick={removeFrame} />
         </div>
       </div>
-    </div>
+      {isOpen && <ItemDuration onClose={onCloseDuration} />}
+    </>
   );
 }

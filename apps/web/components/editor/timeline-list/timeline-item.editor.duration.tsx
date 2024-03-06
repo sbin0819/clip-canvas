@@ -1,52 +1,134 @@
-import React, { useState } from 'react';
-import { FaSortDown, FaSortUp } from 'react-icons/fa';
-import { RiDeleteBin6Line, RiFileCopyLine } from 'react-icons/ri';
+'use client';
 
-const ItemDuration = () => {
-  const [duration, setDuration] = useState(0.5);
-  const [sync, setSync] = useState(false);
+import useEditorStore, { FrameState } from '@/app/store/use-editor-store';
+import React, { use, useEffect, useRef, useState } from 'react';
+import { produce } from 'immer';
+import useOnClickOutside from '@/hooks/use-on-click-outside';
+import { TiArrowSortedUp, TiArrowSortedDown } from 'react-icons/ti';
 
-  const incrementDuration = () => {
-    setDuration((prevDuration) => prevDuration + 0.5);
+interface ItemDurationProps {
+  onClose: () => void;
+}
+
+const ItemDuration = ({ onClose }: ItemDurationProps) => {
+  const { currentFrameIdx, currentFrame, setFrames } = useEditorStore(
+    (state) => ({
+      currentFrameIdx: state.options.option.currentFrameIdx,
+      currentFrame: state.options.frames[state.options.option.currentFrameIdx],
+      setOptions: state.setOptions,
+      setFrames: state.setFrames,
+    }),
+  );
+
+  const originalDuration = currentFrame ? currentFrame.duration / 1000 : 0;
+
+  const [inputValue, setInputValue] = useState(originalDuration.toString());
+
+  const containerRef = useRef<HTMLDivElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  const onIncrementDuration = () => {
+    setInputValue((currentValue) => {
+      const newValue = parseFloat(currentValue) + 0.1;
+      return newValue.toFixed(1);
+    });
   };
 
-  const decrementDuration = () => {
-    setDuration((prevDuration) => Math.max(0, prevDuration - 0.5));
+  const onDecrementDuration = () => {
+    setInputValue((currentValue) => {
+      const newValue = parseFloat(currentValue) - 0.1;
+      return newValue > 0 ? newValue.toFixed(1) : '0.0';
+    });
   };
 
-  const toggleSync = () => {
-    setSync((prevSync) => !prevSync);
+  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    if (value === '') {
+      setInputValue(value);
+      return;
+    } else if (!/^(\d+)?([.]?\d{0,1})?$/.test(value)) {
+      return;
+    }
+    setInputValue(value);
   };
+
+  const onUpdateValidDuration = () => {
+    let duration = parseFloat(inputValue);
+    if (isNaN(duration) || duration <= 0) {
+      duration = originalDuration;
+    }
+    const durationInMilliseconds = Math.round(duration * 1000);
+    setFrames(
+      produce((draft) => {
+        (draft[currentFrameIdx] as FrameState).duration =
+          durationInMilliseconds;
+      }),
+    );
+    onClose();
+  };
+
+  const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    onUpdateValidDuration();
+  };
+
+  useOnClickOutside(containerRef, (e) => {
+    e.stopPropagation();
+    onUpdateValidDuration();
+  });
+
+  useEffect(() => {
+    if (inputRef.current) {
+      inputRef.current.focus();
+    }
+  }, [inputRef]);
+
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') onUpdateValidDuration();
+    };
+    const handleWheel = () => {
+      onUpdateValidDuration();
+    };
+    addEventListener('keydown', handleKeyDown);
+    addEventListener('wheel', handleWheel);
+
+    return () => {
+      removeEventListener('keydown', handleKeyDown);
+      removeEventListener('wheel', handleWheel);
+    };
+  }, []);
 
   return (
-    <div className="bg-white p-4 rounded-lg shadow-md">
-      <div className="flex items-center justify-between mb-4">
-        <span>Create</span>
-        <label className="switch">
-          <input type="checkbox" checked={sync} onChange={toggleSync} />
-          <span className="slider round"></span>
-        </label>
-      </div>
-      <div className="flex items-center justify-between">
-        <div className="flex items-center">
-          <button onClick={decrementDuration} className="p-1">
-            <FaSortDown />
-          </button>
-          <button onClick={incrementDuration} className="p-1">
-            <FaSortUp />
-          </button>
-          <div className="px-2 py-1 bg-gray-200 rounded-full text-sm">
-            {duration}s
+    <div
+      ref={containerRef}
+      className="absolute left-20 bg-white border border-gray-400 p-2 w-[200px] rounded-lg shadow-md z-50"
+      style={{
+        marginBlockStart: '-60px',
+      }}
+    >
+      <div>
+        <p className="font-semibold text-[12px]">Duration</p>
+        <form onSubmit={onSubmit}>
+          <div className="my-2 w-full flex items-center bg-slate-200 border-gray-300 rounded-lg text-gray-600 text-sm">
+            <input
+              ref={inputRef}
+              className="w-full"
+              type="text"
+              value={inputValue}
+              placeholder={!inputValue ? '' + originalDuration : ''}
+              onChange={onChange}
+            />
+            <div className="mr-1 cursor-pointer">
+              <div onClick={onIncrementDuration}>
+                <TiArrowSortedUp size={14} />
+              </div>
+              <div onClick={onDecrementDuration}>
+                <TiArrowSortedDown size={14} />
+              </div>
+            </div>
           </div>
-        </div>
-        <div className="flex items-center">
-          <button className="p-1">
-            <RiFileCopyLine size="20" />
-          </button>
-          <button className="p-1">
-            <RiDeleteBin6Line size="20" />
-          </button>
-        </div>
+        </form>
       </div>
     </div>
   );
