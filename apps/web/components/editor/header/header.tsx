@@ -3,6 +3,7 @@
 import { BiUndo, BiRedo } from 'react-icons/bi';
 import DisplayDropdown from './header.display-dropdown';
 import Link from 'next/link';
+import Export from './header.export';
 
 export default function Header() {
   return (
@@ -15,7 +16,7 @@ export default function Header() {
           <div>
             <Link href="/">home</Link>
           </div>
-          <div className="ml-auto flex items-center gap-4 h-full">
+          <div className="ml-auto h-[36px] flex items-center gap-4">
             <div className="flex items-center gap-4 px-4 border-r-[1px]">
               <button>
                 <BiUndo size={28} />
@@ -24,9 +25,8 @@ export default function Header() {
                 <BiRedo size={28} />
               </button>
             </div>
-            <div className="h-[36px]">
-              <DisplayDropdown />
-            </div>
+            <DisplayDropdown />
+            <Export />
           </div>
         </div>
       </header>

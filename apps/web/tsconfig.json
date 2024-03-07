@@ -11,13 +11,7 @@
       "@/*": ["*"],
       "@cn": ["libs/cn.ts"]
     },
-    "strictNullChecks": true,
-    "types": [
-      "vitest/globals",
-      "@testing-library/react",
-      "@testing-library/jest-dom",
-      "@testing-library/user-event"
-    ]
+    "strictNullChecks": true
   },
   "include": [
     "next-env.d.ts",

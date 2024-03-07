@@ -5,9 +5,11 @@ import { immer } from 'zustand/middleware/immer';
 import { Slides, FrameState } from './use-editor-store.types';
 export * from './use-editor-store.types';
 
-export interface SideOptionsState {
+interface EditorState {
   options: Slides;
+}
 
+interface EditorAction {
   setOptions: (update: ((options: Slides) => Slides) | Slides) => void;
   setFrames: (
     update: ((frames: FrameState[]) => FrameState[]) | FrameState[],
@@ -17,7 +19,9 @@ export interface SideOptionsState {
   ) => void;
 }
 
-const useEditorStore = create<SideOptionsState>()(
+export interface EditorStateAction extends EditorState, EditorAction {}
+
+const useEditorStore = create<EditorStateAction>()(
   immer((set) => ({
     options: {
       frames: [],

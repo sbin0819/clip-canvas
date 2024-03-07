@@ -37,7 +37,7 @@ const ItemDuration = ({ onClose }: ItemDurationProps) => {
   const onDecrementDuration = () => {
     setInputValue((currentValue) => {
       const newValue = parseFloat(currentValue) - 0.1;
-      return newValue > 0 ? newValue.toFixed(1) : '0.0';
+      return newValue > 0 ? newValue.toFixed(1) : '';
     });
   };
 

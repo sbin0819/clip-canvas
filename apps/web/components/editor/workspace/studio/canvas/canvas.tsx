@@ -75,6 +75,7 @@ const Canvas = () => {
           onDragOver={onDragOver}
         >
           <div
+            id="editor__canvas"
             className={cn(
               'relative',
               'w-full h-full rounded-md border-2 border-teal-400',
