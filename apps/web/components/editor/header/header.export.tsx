@@ -1,46 +1,61 @@
+import html2canvas from 'html2canvas';
 import { useState } from 'react';
 import { BiExport } from 'react-icons/bi';
-import html2canvas from 'html2canvas';
 import RecordRTC from 'recordrtc';
 
 export default function Export() {
-  const [isRecording, setIsRecording] = useState(false); // State to handle button text and functionality
+  const [isRecording, setIsRecording] = useState(false);
 
   const onClick = async () => {
-    setIsRecording(true); // Start recording
+    setIsRecording(true);
 
-    const canvasElement = document.getElementById('editor__canvas');
-    if (!canvasElement) {
-      console.error('Canvas element not found');
-      setIsRecording(false); // Reset recording status
+    const divElement = document.getElementById('editor__canvas');
+    if (!divElement) {
+      console.error('DIV element not found');
+      setIsRecording(false);
       return;
     }
 
-    const canvas = await html2canvas(canvasElement);
-    const stream = canvas.captureStream(25); // Capture the stream from the canvas, 25 FPS
-
+    // 스크린샷을 찍어 Canvas에 그리기 위한 새 Canvas 요소 생성
+    const captureCanvas = document.createElement('canvas');
+    const captureContext = captureCanvas.getContext('2d');
+    if (!captureContext) {
+      console.error('Failed to get 2D context');
+      setIsRecording(false);
+      return;
+    }
+    const stream = captureCanvas.captureStream(25); // FPS 설정
     const recorder = new RecordRTC(stream, {
       type: 'video',
-      mimeType: 'video/mp4', // Set the desired output format
-      frameRate: 25, // Match FPS
+      mimeType: 'video/webm',
+      frameRate: 25,
     });
 
     recorder.startRecording();
 
-    // Record for 3 seconds (3000 milliseconds)
-    setTimeout(async () => {
+    // 주기적으로 div의 내용을 캡쳐하고 canvas에 그리는 작업을 수행
+    const interval = setInterval(() => {
+      html2canvas(divElement).then((canvas) => {
+        captureCanvas.width = canvas.width;
+        captureCanvas.height = canvas.height;
+        captureContext.clearRect(0, 0, canvas.width, canvas.height);
+        captureContext.drawImage(canvas, 0, 0, canvas.width, canvas.height);
+      });
+    }, 40); // 대략 25 FPS에 해당하는 주기
+
+    setTimeout(() => {
+      clearInterval(interval);
       recorder.stopRecording(() => {
         const blob = recorder.getBlob();
 
-        // Create a link and trigger a download
         const downloadLink = document.createElement('a');
         downloadLink.href = URL.createObjectURL(blob);
-        downloadLink.download = 'recorded_canvas.mp4'; // Name the file
+        downloadLink.download = 'recorded_content.webm'; // 확장자 변경
         downloadLink.click();
 
-        setIsRecording(false); // Reset recording status after downloading
+        setIsRecording(false);
       });
-    }, 3000);
+    }, 3000); // 3초간 녹화 후 중단
   };
 
   return (
@@ -49,9 +64,7 @@ export default function Export() {
       onClick={onClick}
     >
       <div>{isRecording ? 'Exporting...' : 'Export'}</div>
-      <div>
-        <BiExport />
-      </div>
+      <BiExport />
     </div>
   );
 }

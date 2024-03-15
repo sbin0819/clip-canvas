@@ -1,10 +1,10 @@
 'use client';
 
-import useEditorStore, { ColorType } from '@/app/store/use-editor-store';
+import useEditorStore from '@/app/store/use-editor-store';
 import { useState } from 'react';
-import TextPalette from './text.palate';
 import { IoIosArrowBack } from 'react-icons/io';
 import TextOptions from './text.options';
+import TextPalette from './text.palate';
 
 export default function TextPanel() {
   const { currentFrame } = useEditorStore((state) => ({

@@ -3,11 +3,11 @@
 import useEditorStore, { ColorType } from '@/app/store/use-editor-store';
 import useOnClickOutside from '@/hooks/use-on-click-outside';
 import { useEffect, useRef, useState } from 'react';
-import { ColorPicker, useColor, ColorService } from 'react-color-palette';
+import { ColorPicker, ColorService, useColor } from 'react-color-palette';
+import 'react-color-palette/css';
 import Dropdown from '../common/dropdown';
 
 const colorOptions = ['solid', 'gradient'] as ColorType[];
-import 'react-color-palette/css';
 
 const favoriteColors = [
   '#000000',

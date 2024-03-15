@@ -1,10 +1,10 @@
 'use client';
 
-import { memo, useCallback, useState } from 'react';
 import useEditorStore from '@/app/store/use-editor-store';
 import { cn } from '@/libs/cn';
-import CanvasNavigation from './canvas.navigation';
 import { produce } from 'immer';
+import { useCallback, useState } from 'react';
+import CanvasNavigation from './canvas.navigation';
 // import styles from './frames.module.css';
 
 const Canvas = () => {
