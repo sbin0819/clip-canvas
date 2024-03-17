@@ -1,10 +1,43 @@
+'use client';
+
 import html2canvas from 'html2canvas';
 import { useState } from 'react';
 import { BiExport } from 'react-icons/bi';
 import RecordRTC from 'recordrtc';
 
+// switch (resolution) {
+//   case '720p':
+//     width = 1280;
+//     height = 720;
+//     break;
+//   case '1080p':
+//     width = 1920;
+//     height = 1080;
+//     break;
+//   case '4k':
+//     width = 3840;
+//     height = 2160;
+//     break;
+//   default:
+//     width = 1280; // 기본값
+//     height = 720;
+// }
+
+// const resolution = '1080p';
+// type Resolution = '720p' | '1080p' | '4k';
+// type Fps = 30 | 60;
+const fps = 60;
+
 export default function Export() {
   const [isRecording, setIsRecording] = useState(false);
+
+  // const onCallWorker = async () => {
+  //   const worker = new Worker(new URL('worker.ts', import.meta.url));
+  //   worker.postMessage('Hello, worker!');
+  //   worker.onmessage = (event) => {
+  //     console.log(event.data);
+  //   };
+  // };
 
   const onClick = async () => {
     setIsRecording(true);
@@ -16,19 +49,24 @@ export default function Export() {
       return;
     }
 
+    let width = 1920;
+    let height = 1080;
+
     // 스크린샷을 찍어 Canvas에 그리기 위한 새 Canvas 요소 생성
     const captureCanvas = document.createElement('canvas');
+    captureCanvas.width = width;
+    captureCanvas.height = height;
     const captureContext = captureCanvas.getContext('2d');
     if (!captureContext) {
       console.error('Failed to get 2D context');
       setIsRecording(false);
       return;
     }
-    const stream = captureCanvas.captureStream(25); // FPS 설정
+    const stream = captureCanvas.captureStream(fps); // FPS 설정
     const recorder = new RecordRTC(stream, {
       type: 'video',
       mimeType: 'video/webm',
-      frameRate: 25,
+      frameRate: fps,
     });
 
     recorder.startRecording();
@@ -41,7 +79,7 @@ export default function Export() {
         captureContext.clearRect(0, 0, canvas.width, canvas.height);
         captureContext.drawImage(canvas, 0, 0, canvas.width, canvas.height);
       });
-    }, 40); // 대략 25 FPS에 해당하는 주기
+    }, 1000 / fps);
 
     setTimeout(() => {
       clearInterval(interval);
@@ -55,7 +93,7 @@ export default function Export() {
 
         setIsRecording(false);
       });
-    }, 3000); // 3초간 녹화 후 중단
+    }, 1000 * 6); // 6초간 녹화 후 중단
   };
 
   return (
