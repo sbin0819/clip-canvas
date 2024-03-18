@@ -8,5 +8,10 @@
       "name": "web",
       "path": "apps/web"
     }
-  ]
+  ],
+  "settings": {
+    "search.exclude": {
+      "**/.next": true
+    }
+  }
 }

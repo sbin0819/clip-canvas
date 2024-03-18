@@ -8,3 +8,10 @@
 
 - 재생된 frames 들을 비디오로 저장
   https://medium.com/nerd-for-tech/create-a-web-app-that-records-your-screen-with-45-lines-of-code-e29dc2008c4a
+
+###
+
+body
+https://www.typeframes.com/api/lambda/progress?pid=dnHV3V46HCslONyiNNqS&id=rnjlnqknng&fileName=dnHV3V46HCslONyiNNqS-1710719811122.mp4
+
+ffmpeg 를 통해서 frames 를 비디오로 변환
